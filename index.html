@@ -24,7 +24,6 @@
 
   <div class="app">
 
-    <!-- SIDEBAR -->
     <aside class="sidebar">
 
       <div class="brand">
@@ -72,7 +71,6 @@
     </aside>
 
 
-    <!-- MAIN -->
     <main class="main">
 
       <header class="topbar">
@@ -93,6 +91,7 @@
 
 
       <!-- DASHBOARD -->
+
       <section id="dashboard" class="section active-section">
 
         <div class="hero">
@@ -151,6 +150,7 @@
             </div>
 
             <div>
+
               <span class="small-label">
                 MENSAGEM DO DIA
               </span>
@@ -164,6 +164,7 @@
                 Toda conversa pode virar um cliente.
                 Continue prospectando.
               </p>
+
             </div>
 
           </div>
@@ -179,6 +180,7 @@
 
               <div class="step">
                 <span>01</span>
+
                 <div>
                   <strong>Escolha o país</strong>
                   <p>Brasil, Portugal ou Estados Unidos.</p>
@@ -187,6 +189,7 @@
 
               <div class="step">
                 <span>02</span>
+
                 <div>
                   <strong>Procure os leads</strong>
                   <p>Escolha negócio e cidade.</p>
@@ -195,6 +198,7 @@
 
               <div class="step">
                 <span>03</span>
+
                 <div>
                   <strong>Entre em contato</strong>
                   <p>WhatsApp ou ligação.</p>
@@ -211,11 +215,13 @@
 
 
       <!-- SEARCH -->
+
       <section id="search" class="section">
 
         <div class="section-header">
 
           <div>
+
             <div class="eyebrow">
               PROSPECÇÃO
             </div>
@@ -227,12 +233,16 @@
             <p>
               Encontre empresas para entrar em contato.
             </p>
+
           </div>
 
         </div>
 
 
         <div class="search-card">
+
+
+          <!-- PAÍS -->
 
           <div class="field">
 
@@ -259,7 +269,9 @@
           </div>
 
 
-          <div class="field">
+          <!-- NEGÓCIO -->
+
+          <div class="field autocomplete-field">
 
             <label for="business">
               🏢 Negócio
@@ -268,13 +280,21 @@
             <input
               id="business"
               type="text"
+              autocomplete="off"
               placeholder="Ex: barbeiro, clínica..."
             >
+
+            <div
+              id="businessSuggestions"
+              class="suggestions"
+            ></div>
 
           </div>
 
 
-          <div class="field">
+          <!-- CIDADE -->
+
+          <div class="field autocomplete-field">
 
             <label for="city">
               📍 Cidade
@@ -283,11 +303,19 @@
             <input
               id="city"
               type="text"
+              autocomplete="off"
               placeholder="Ex: Jales, Lisboa, Miami..."
             >
 
+            <div
+              id="citySuggestions"
+              class="suggestions"
+            ></div>
+
           </div>
 
+
+          <!-- QUANTIDADE -->
 
           <div class="field">
 
@@ -326,7 +354,6 @@
         </div>
 
 
-        <!-- LOADING -->
         <div id="loading" class="loading-card hidden">
 
           <div class="spinner"></div>
@@ -346,7 +373,6 @@
         </div>
 
 
-        <!-- RESULTS -->
         <div class="results-header">
 
           <div>
@@ -390,6 +416,7 @@
 
 
       <!-- SAVED -->
+
       <section id="saved" class="section">
 
         <div class="section-header">
@@ -418,6 +445,7 @@
 
 
       <!-- HISTORY -->
+
       <section id="history" class="section">
 
         <div class="section-header">
