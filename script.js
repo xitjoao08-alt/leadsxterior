@@ -35,46 +35,9 @@ const $$ = selector =>
 let currentLeads = [];
 
 
-function saveState() {
-
-  localStorage.setItem(
-    STORAGE.saved,
-    JSON.stringify(state.saved)
-  );
-
-  localStorage.setItem(
-    STORAGE.history,
-    JSON.stringify(state.history)
-  );
-
-  localStorage.setItem(
-    STORAGE.found,
-    state.found
-  );
-
-  localStorage.setItem(
-    STORAGE.searches,
-    state.searches
-  );
-}
-
-
-function updateStats() {
-
-  $("#statFound").textContent =
-    state.found;
-
-  $("#statSaved").textContent =
-    state.saved.length;
-
-  $("#statSearches").textContent =
-    state.searches;
-}
-
-
-/* =========================
-   COUNTRIES
-========================= */
+/* =====================================
+   PAÍSES
+===================================== */
 
 const COUNTRY_DATA = {
 
@@ -96,9 +59,680 @@ const COUNTRY_DATA = {
 };
 
 
-/* =========================
+/* =====================================
+   CIDADES
+===================================== */
+
+const CITIES = {
+
+  BR: [
+
+    "São Paulo",
+    "Rio de Janeiro",
+    "Belo Horizonte",
+    "Brasília",
+    "Curitiba",
+    "Campinas",
+    "Santos",
+    "São José dos Campos",
+    "São José do Rio Preto",
+    "Jales",
+    "Votuporanga",
+    "Fernandópolis",
+    "Ribeirão Preto",
+    "Sorocaba",
+    "Bauru",
+    "Marília",
+    "Presidente Prudente",
+    "Araçatuba",
+    "Franca",
+    "São Carlos",
+    "Araraquara",
+    "Piracicaba",
+    "Limeira",
+    "Mogi das Cruzes",
+    "Guarulhos",
+    "Osasco",
+    "Santo André",
+    "São Bernardo do Campo",
+    "São Caetano do Sul",
+    "Uberlândia",
+    "Uberaba",
+    "Juiz de Fora",
+    "Montes Claros",
+    "Contagem",
+    "Divinópolis",
+    "Poços de Caldas",
+    "Governador Valadares",
+    "Londrina",
+    "Maringá",
+    "Foz do Iguaçu",
+    "Joinville",
+    "Florianópolis",
+    "Blumenau",
+    "Porto Alegre",
+    "Caxias do Sul",
+    "Salvador",
+    "Recife",
+    "Fortaleza",
+    "Natal",
+    "João Pessoa",
+    "Maceió",
+    "Aracaju",
+    "Manaus",
+    "Belém",
+    "Goiânia",
+    "Campo Grande",
+    "Cuiabá"
+  ],
+
+
+  PT: [
+
+    "Lisboa",
+    "Porto",
+    "Braga",
+    "Coimbra",
+    "Aveiro",
+    "Faro",
+    "Setúbal",
+    "Sintra",
+    "Cascais",
+    "Guimarães",
+    "Leiria",
+    "Évora",
+    "Viseu",
+    "Santarém",
+    "Portimão",
+    "Almada",
+    "Amadora",
+    "Oeiras",
+    "Matosinhos",
+    "Vila Nova de Gaia"
+  ],
+
+
+  US: [
+
+    "New York",
+    "Los Angeles",
+    "Chicago",
+    "Houston",
+    "Phoenix",
+    "Philadelphia",
+    "San Antonio",
+    "San Diego",
+    "Dallas",
+    "San Jose",
+    "Austin",
+    "Jacksonville",
+    "San Francisco",
+    "Columbus",
+    "Indianapolis",
+    "Fort Worth",
+    "Charlotte",
+    "Seattle",
+    "Denver",
+    "Washington",
+    "Boston",
+    "Nashville",
+    "Las Vegas",
+    "Miami",
+    "Atlanta",
+    "Orlando",
+    "Tampa",
+    "Portland",
+    "Detroit",
+    "Memphis"
+  ]
+
+};
+
+
+/* =====================================
+   SUGESTÕES DE NEGÓCIOS
+===================================== */
+
+const BUSINESS_SUGGESTIONS = {
+
+  BR: [
+
+    "Barbearia",
+    "Barbeiro",
+    "Salão de beleza",
+    "Salão masculino",
+    "Clínica odontológica",
+    "Clínica médica",
+    "Clínica de estética",
+    "Estética",
+    "Academia",
+    "Restaurante",
+    "Pizzaria",
+    "Hamburgueria",
+    "Sorveteria",
+    "Doceria",
+    "Padaria",
+    "Cafeteria",
+    "Pet shop",
+    "Veterinário",
+    "Loja de roupas",
+    "Loja de calçados",
+    "Ótica",
+    "Imobiliária",
+    "Contabilidade",
+    "Advocacia",
+    "Fotógrafo",
+    "Design",
+    "Agência de marketing",
+    "Oficina mecânica",
+    "Auto center",
+    "Lavagem automotiva"
+
+  ],
+
+
+  PT: [
+
+    "Barbearia",
+    "Barbeiro",
+    "Salão de cabeleireiro",
+    "Salão de beleza",
+    "Clínica dentária",
+    "Clínica médica",
+    "Clínica de estética",
+    "Estética",
+    "Ginásio",
+    "Restaurante",
+    "Pizzaria",
+    "Hamburgueria",
+    "Gelataria",
+    "Pastelaria",
+    "Cafetaria",
+    "Pet shop",
+    "Veterinário",
+    "Loja de roupa",
+    "Loja de calçado",
+    "Ótica",
+    "Imobiliária",
+    "Contabilidade",
+    "Advocacia",
+    "Fotógrafo",
+    "Agência de marketing",
+    "Oficina automóvel",
+    "Lavagem automóvel"
+
+  ],
+
+
+  US: [
+
+    "Barber shop",
+    "Barber",
+    "Beauty salon",
+    "Hair salon",
+    "Dental clinic",
+    "Medical clinic",
+    "Aesthetic clinic",
+    "Gym",
+    "Restaurant",
+    "Pizza restaurant",
+    "Burger restaurant",
+    "Ice cream shop",
+    "Bakery",
+    "Coffee shop",
+    "Pet shop",
+    "Veterinarian",
+    "Clothing store",
+    "Shoe store",
+    "Optical store",
+    "Real estate agency",
+    "Accounting",
+    "Law firm",
+    "Photographer",
+    "Marketing agency",
+    "Auto repair shop",
+    "Car wash"
+
+  ]
+
+};
+
+
+/* =====================================
+   STORAGE
+===================================== */
+
+function saveState() {
+
+  localStorage.setItem(
+    STORAGE.saved,
+    JSON.stringify(state.saved)
+  );
+
+  localStorage.setItem(
+    STORAGE.history,
+    JSON.stringify(state.history)
+  );
+
+  localStorage.setItem(
+    STORAGE.found,
+    state.found
+  );
+
+  localStorage.setItem(
+    STORAGE.searches,
+    state.searches
+  );
+
+}
+
+
+function updateStats() {
+
+  $("#statFound").textContent =
+    state.found;
+
+  $("#statSaved").textContent =
+    state.saved.length;
+
+  $("#statSearches").textContent =
+    state.searches;
+
+}
+
+
+/* =====================================
+   NORMALIZA TEXTO
+===================================== */
+
+function normalizeText(text) {
+
+  return String(text)
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+
+}
+
+
+/* =====================================
+   AUTOCOMPLETE — NEGÓCIO
+===================================== */
+
+function renderBusinessSuggestions() {
+
+  const input =
+    $("#business");
+
+  const container =
+    $("#businessSuggestions");
+
+  const country =
+    $("#country").value;
+
+  const query =
+    normalizeText(input.value);
+
+
+  let items =
+    BUSINESS_SUGGESTIONS[country] || [];
+
+
+  /*
+    Se não digitou nada:
+    mostra sugestões iniciais.
+  */
+
+  if (!query) {
+
+    items =
+      items.slice(0, 8);
+
+  } else {
+
+    /*
+      Exemplo:
+      "sa"
+
+      encontra:
+
+      Salão
+      Salão masculino
+      Saúde etc.
+
+      A comparação ignora
+      acentos e maiúsculas.
+    */
+
+    items =
+      items.filter(
+        item =>
+          normalizeText(item)
+            .includes(query)
+      ).slice(0, 8);
+
+  }
+
+
+  if (!items.length) {
+
+    container.classList.remove("show");
+
+    container.innerHTML = "";
+
+    return;
+  }
+
+
+  container.innerHTML =
+    items.map(item => {
+
+      return `
+        <button
+          type="button"
+          class="suggestion-item"
+          data-business="${escapeHTML(item)}"
+        >
+
+          <span class="suggestion-icon">
+            🏢
+          </span>
+
+          <span>
+            ${escapeHTML(item)}
+
+            <small>
+              Buscar leads desse segmento
+            </small>
+          </span>
+
+        </button>
+      `;
+
+    }).join("");
+
+
+  container.classList.add("show");
+
+
+  container
+    .querySelectorAll(
+      ".suggestion-item"
+    )
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          input.value =
+            button.dataset.business;
+
+          container.classList.remove(
+            "show"
+          );
+
+        }
+      );
+
+    });
+
+}
+
+
+/* =====================================
+   AUTOCOMPLETE — CIDADE
+===================================== */
+
+function renderCitySuggestions() {
+
+  const input =
+    $("#city");
+
+  const container =
+    $("#citySuggestions");
+
+  const country =
+    $("#country").value;
+
+  const query =
+    normalizeText(input.value);
+
+
+  const cities =
+    CITIES[country] || [];
+
+
+  let items;
+
+
+  if (!query) {
+
+    items =
+      cities.slice(0, 10);
+
+  } else {
+
+    items =
+      cities
+        .filter(
+          city =>
+            normalizeText(city)
+              .includes(query)
+        )
+        .slice(0, 10);
+
+  }
+
+
+  if (!items.length) {
+
+    container.innerHTML = `
+      <div class="suggestion-item">
+        🔎 Nenhuma cidade encontrada
+      </div>
+    `;
+
+    container.classList.add("show");
+
+    return;
+  }
+
+
+  container.innerHTML =
+    items.map(city => {
+
+      return `
+        <button
+          type="button"
+          class="suggestion-item"
+          data-city="${escapeHTML(city)}"
+        >
+
+          <span class="suggestion-icon">
+            📍
+          </span>
+
+          <span>
+            ${escapeHTML(city)}
+
+            <small>
+              Usar esta cidade
+            </small>
+          </span>
+
+        </button>
+      `;
+
+    }).join("");
+
+
+  container.classList.add("show");
+
+
+  container
+    .querySelectorAll(
+      ".suggestion-item"
+    )
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          input.value =
+            button.dataset.city;
+
+          container.classList.remove(
+            "show"
+          );
+
+        }
+      );
+
+    });
+
+}
+
+
+/* =====================================
+   ESCAPE HTML
+===================================== */
+
+function escapeHTML(value) {
+
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+/* =====================================
+   CONTACTOS DEMO
+===================================== */
+
+function getContact(country, index) {
+
+  if (country === "BR") {
+
+    const contacts = [
+
+      {
+        number: "+55 17 99612-3456",
+        type: "whatsapp"
+      },
+
+      {
+        number: "+55 17 3621-4587",
+        type: "fixed"
+      },
+
+      {
+        number: "+55 11 99876-2345",
+        type: "whatsapp"
+      },
+
+      {
+        number: "+55 17 3632-7788",
+        type: "fixed"
+      },
+
+      {
+        number: "+55 11 98765-4321",
+        type: "whatsapp"
+      }
+
+    ];
+
+    return contacts[
+      index % contacts.length
+    ];
+
+  }
+
+
+  if (country === "PT") {
+
+    const contacts = [
+
+      {
+        number: "+351 912 345 678",
+        type: "whatsapp"
+      },
+
+      {
+        number: "+351 211 234 567",
+        type: "fixed"
+      },
+
+      {
+        number: "+351 913 456 789",
+        type: "whatsapp"
+      },
+
+      {
+        number: "+351 218 765 432",
+        type: "fixed"
+      },
+
+      {
+        number: "+351 914 567 890",
+        type: "whatsapp"
+      }
+
+    ];
+
+    return contacts[
+      index % contacts.length
+    ];
+
+  }
+
+
+  const contacts = [
+
+    {
+      number: "+1 305 555 0142",
+      type: "phone"
+    },
+
+    {
+      number: "+1 305 555 0187",
+      type: "phone"
+    },
+
+    {
+      number: "+1 786 555 0134",
+      type: "phone"
+    },
+
+    {
+      number: "+1 407 555 0166",
+      type: "phone"
+    },
+
+    {
+      number: "+1 212 555 0198",
+      type: "phone"
+    }
+
+  ];
+
+  return contacts[
+    index % contacts.length
+  ];
+
+}
+
+
+/* =====================================
    DEMO LEADS
-========================= */
+===================================== */
 
 const DEMO_NAMES = {
 
@@ -159,130 +793,9 @@ const DEMO_NAMES = {
 };
 
 
-/* =========================
-   CONTACT DATA
-========================= */
-
-function getContact(country, index) {
-
-  if (country === "BR") {
-
-    const contacts = [
-
-      {
-        number: "+55 17 99612-3456",
-        type: "whatsapp"
-      },
-
-      {
-        number: "+55 17 3621-4587",
-        type: "fixed"
-      },
-
-      {
-        number: "+55 11 99876-2345",
-        type: "whatsapp"
-      },
-
-      {
-        number: "+55 17 3632-7788",
-        type: "fixed"
-      },
-
-      {
-        number: "+55 11 98765-4321",
-        type: "whatsapp"
-      }
-
-    ];
-
-    return contacts[index % contacts.length];
-  }
-
-
-  if (country === "PT") {
-
-    const contacts = [
-
-      {
-        number: "+351 912 345 678",
-        type: "whatsapp"
-      },
-
-      {
-        number: "+351 211 234 567",
-        type: "fixed"
-      },
-
-      {
-        number: "+351 913 456 789",
-        type: "whatsapp"
-      },
-
-      {
-        number: "+351 218 765 432",
-        type: "fixed"
-      },
-
-      {
-        number: "+351 914 567 890",
-        type: "whatsapp"
-      }
-
-    ];
-
-    return contacts[index % contacts.length];
-  }
-
-
-  /* EUA */
-
-  if (country === "US") {
-
-    const contacts = [
-
-      {
-        number: "+1 305 555 0142",
-        type: "phone"
-      },
-
-      {
-        number: "+1 305 555 0187",
-        type: "phone"
-      },
-
-      {
-        number: "+1 786 555 0134",
-        type: "phone"
-      },
-
-      {
-        number: "+1 407 555 0166",
-        type: "phone"
-      },
-
-      {
-        number: "+1 212 555 0198",
-        type: "phone"
-      }
-
-    ];
-
-    return contacts[index % contacts.length];
-  }
-
-
-  return {
-    number: "",
-    type: "unknown"
-  };
-
-}
-
-
-/* =========================
-   WEBSITE
-========================= */
+/* =====================================
+   SITE
+===================================== */
 
 function getWebsite(name, index) {
 
@@ -292,8 +805,7 @@ function getWebsite(name, index) {
 
   return (
     "https://www." +
-    name
-      .toLowerCase()
+    normalizeText(name)
       .replace(/[^a-z0-9]/g, "")
       .slice(0, 22) +
     ".com"
@@ -302,9 +814,9 @@ function getWebsite(name, index) {
 }
 
 
-/* =========================
-   APPROACH
-========================= */
+/* =====================================
+   ABORDAGEM
+===================================== */
 
 function createApproach(
   name,
@@ -328,7 +840,7 @@ function createApproach(
 
     return `
       Hi! How are you? I came across ${name} and really liked your business.
-      I’m reaching out because I believe I could help you strengthen your
+      I'm reaching out because I believe I could help you strengthen your
       online presence and attract more customers. Would you be open to
       seeing a quick idea with no commitment?
     `;
@@ -347,9 +859,9 @@ function createApproach(
 }
 
 
-/* =========================
-   CALL SCRIPT
-========================= */
+/* =====================================
+   ROTEIRO DE LIGAÇÃO
+===================================== */
 
 function createCallScript(
   name,
@@ -399,9 +911,9 @@ function createCallScript(
 }
 
 
-/* =========================
-   CONTACT BADGE
-========================= */
+/* =====================================
+   BADGE DE CONTACTO
+===================================== */
 
 function contactBadge(type) {
 
@@ -449,7 +961,7 @@ function contactBadge(type) {
       <div class="fixed-warning">
 
         <strong>
-          📞 CONTATO POR LIGAÇÃO
+          📞 CONTACTO POR TELEFONE
         </strong>
 
         Este contacto está disponível por telefone.
@@ -466,9 +978,9 @@ function contactBadge(type) {
 }
 
 
-/* =========================
-   CREATE LEADS
-========================= */
+/* =====================================
+   CRIAR LEADS
+===================================== */
 
 function createLeads(
   country,
@@ -558,12 +1070,13 @@ function createLeads(
 
 
   return leads;
+
 }
 
 
-/* =========================
+/* =====================================
    LINKS
-========================= */
+===================================== */
 
 function whatsappLink(phone) {
 
@@ -585,14 +1098,16 @@ function phoneLink(phone) {
 }
 
 
-/* =========================
+/* =====================================
    COPY
-========================= */
+===================================== */
 
 async function copyText(text) {
 
   const cleanText =
-    text.replace(/\s+/g, " ").trim();
+    text
+      .replace(/\s+/g, " ")
+      .trim();
 
 
   try {
@@ -614,9 +1129,9 @@ async function copyText(text) {
 }
 
 
-/* =========================
-   LEAD CARD
-========================= */
+/* =====================================
+   CARD
+===================================== */
 
 function leadCard(lead) {
 
@@ -646,11 +1161,13 @@ function leadCard(lead) {
       `;
 
 
-  const fixed =
-    lead.contactType === "fixed";
-
   const phone =
     lead.phone;
+
+
+  const needsCall =
+    lead.contactType === "fixed" ||
+    lead.contactType === "phone";
 
 
   const contactButton =
@@ -678,7 +1195,7 @@ function leadCard(lead) {
 
 
   const callBox =
-    fixed || lead.contactType === "phone"
+    needsCall
 
       ? `
         <div class="call-box">
@@ -745,7 +1262,6 @@ function leadCard(lead) {
           </a>
         </div>
 
-
         ${contactBadge(
           lead.contactType
         )}
@@ -785,7 +1301,7 @@ function leadCard(lead) {
 
 
         ${
-          fixed || lead.contactType === "phone"
+          needsCall
 
             ? `
               <button
@@ -817,7 +1333,11 @@ function leadCard(lead) {
           }"
           onclick="toggleSave('${lead.id}')"
         >
-          ${saved ? "★ Salvo" : "☆ Salvar lead"}
+          ${
+            saved
+              ? "★ Salvo"
+              : "☆ Salvar lead"
+          }
         </button>
 
       </div>
@@ -829,9 +1349,9 @@ function leadCard(lead) {
 }
 
 
-/* =========================
+/* =====================================
    RENDER
-========================= */
+===================================== */
 
 function renderLeads() {
 
@@ -848,6 +1368,7 @@ function renderLeads() {
 
     container.innerHTML = `
       <div class="empty-state">
+
         <div>🔎</div>
 
         <h3>
@@ -857,6 +1378,7 @@ function renderLeads() {
         <p>
           Tente outra cidade ou segmento.
         </p>
+
       </div>
     `;
 
@@ -872,9 +1394,9 @@ function renderLeads() {
 }
 
 
-/* =========================
-   SAVE
-========================= */
+/* =====================================
+   SALVAR
+===================================== */
 
 function toggleSave(id) {
 
@@ -924,9 +1446,9 @@ function toggleSave(id) {
 }
 
 
-/* =========================
-   SAVED
-========================= */
+/* =====================================
+   SALVOS
+===================================== */
 
 function renderSaved() {
 
@@ -964,9 +1486,9 @@ function renderSaved() {
 }
 
 
-/* =========================
-   HISTORY
-========================= */
+/* =====================================
+   HISTÓRICO
+===================================== */
 
 function renderHistory() {
 
@@ -1021,11 +1543,11 @@ function renderHistory() {
 
               <strong>
                 ${COUNTRY_DATA[item.country].flag}
-                ${item.business}
+                ${escapeHTML(item.business)}
               </strong>
 
               <p>
-                ${item.city} •
+                ${escapeHTML(item.city)} •
                 ${COUNTRY_DATA[item.country].name} •
                 ${item.quantity} leads
               </p>
@@ -1045,9 +1567,9 @@ function renderHistory() {
 }
 
 
-/* =========================
-   SEARCH
-========================= */
+/* =====================================
+   PESQUISA
+===================================== */
 
 async function searchLeads() {
 
@@ -1138,44 +1660,28 @@ async function searchLeads() {
         .textContent =
         messages[messageIndex];
 
-    }, 1000);
+    }, 700);
 
 
   try {
 
     /*
-      ATUALMENTE É DEMONSTRAÇÃO.
+      IMPORTANTE:
 
-      Aqui será conectado o backend real.
+      Esta parte ainda gera leads
+      de demonstração.
 
-      Exemplo:
-
-      const response = await fetch(
-        "https://SEU-BACKEND/api/leads",
-        {
-          method: "POST",
-
-          headers: {
-            "Content-Type": "application/json"
-          },
-
-          body: JSON.stringify({
-            country,
-            business,
-            city,
-            limit: quantity
-          })
-        }
-      );
-
-      currentLeads =
-        await response.json();
+      Depois podemos conectar
+      uma API/backend real aqui.
     */
 
 
     await new Promise(
       resolve =>
-        setTimeout(resolve, 2200)
+        setTimeout(
+          resolve,
+          2200
+        )
     );
 
 
@@ -1251,9 +1757,9 @@ async function searchLeads() {
 }
 
 
-/* =========================
-   NAVIGATION
-========================= */
+/* =====================================
+   NAVEGAÇÃO
+===================================== */
 
 function openSection(id) {
 
@@ -1330,16 +1836,112 @@ $$("[data-go]").forEach(
 );
 
 
-/* =========================
-   EVENTS
-========================= */
+/* =====================================
+   AUTOCOMPLETE EVENTS
+===================================== */
 
-$("#searchBtn")
+$("#business")
   .addEventListener(
-    "click",
-    searchLeads
+    "input",
+    renderBusinessSuggestions
   );
 
+
+$("#business")
+  .addEventListener(
+    "focus",
+    renderBusinessSuggestions
+  );
+
+
+$("#city")
+  .addEventListener(
+    "input",
+    renderCitySuggestions
+  );
+
+
+$("#city")
+  .addEventListener(
+    "focus",
+    renderCitySuggestions
+  );
+
+
+/*
+  Quando muda o país,
+  atualiza as cidades e negócios.
+*/
+
+$("#country")
+  .addEventListener(
+    "change",
+    () => {
+
+      $("#businessSuggestions")
+        .classList.remove("show");
+
+      $("#citySuggestions")
+        .classList.remove("show");
+
+      /*
+        Se o usuário já estiver
+        com algum texto digitado,
+        atualiza as sugestões.
+      */
+
+      if (
+        document.activeElement ===
+        $("#business")
+      ) {
+
+        renderBusinessSuggestions();
+
+      }
+
+      if (
+        document.activeElement ===
+        $("#city")
+      ) {
+
+        renderCitySuggestions();
+
+      }
+
+    }
+  );
+
+
+/*
+  Fecha sugestões quando
+  clicar fora dos campos.
+*/
+
+document.addEventListener(
+  "click",
+  event => {
+
+    if (
+      !event.target.closest(
+        ".autocomplete-field"
+      )
+    ) {
+
+      $("#businessSuggestions")
+        .classList.remove("show");
+
+      $("#citySuggestions")
+        .classList.remove("show");
+
+    }
+
+  }
+);
+
+
+/* =====================================
+   ENTER
+===================================== */
 
 $("#business")
   .addEventListener(
@@ -1347,7 +1949,14 @@ $("#business")
     event => {
 
       if (event.key === "Enter") {
-        searchLeads();
+
+        event.preventDefault();
+
+        $("#businessSuggestions")
+          .classList.remove("show");
+
+        $("#city").focus();
+
       }
 
     }
@@ -1360,16 +1969,34 @@ $("#city")
     event => {
 
       if (event.key === "Enter") {
+
+        event.preventDefault();
+
+        $("#citySuggestions")
+          .classList.remove("show");
+
         searchLeads();
+
       }
 
     }
   );
 
 
-/* =========================
-   CLOCK
-========================= */
+/* =====================================
+   PESQUISAR
+===================================== */
+
+$("#searchBtn")
+  .addEventListener(
+    "click",
+    searchLeads
+  );
+
+
+/* =====================================
+   RELÓGIO
+===================================== */
 
 function updateClock() {
 
@@ -1393,9 +2020,9 @@ setInterval(
 updateClock();
 
 
-/* =========================
+/* =====================================
    THEME
-========================= */
+===================================== */
 
 $("#themeBtn")
   .addEventListener(
@@ -1410,9 +2037,49 @@ $("#themeBtn")
   );
 
 
-/* =========================
-   INIT
-========================= */
+/* =====================================
+   TOAST
+===================================== */
+
+let toastTimer;
+
+function toast(message) {
+
+  const element =
+    $("#toast");
+
+  $("#toastText")
+    .textContent =
+    message;
+
+  element.classList.add(
+    "show"
+  );
+
+
+  clearTimeout(
+    toastTimer
+  );
+
+
+  toastTimer =
+    setTimeout(
+      () => {
+
+        element.classList.remove(
+          "show"
+        );
+
+      },
+      2500
+    );
+
+}
+
+
+/* =====================================
+   INICIALIZAÇÃO
+===================================== */
 
 updateStats();
 
@@ -1420,4 +2087,6 @@ renderSaved();
 
 renderHistory();
 
-openSection("dashboard");
+openSection(
+  "dashboard"
+);
