@@ -1,1323 +1,1462 @@
-/* =====================================================
-   LEADXTERIOR
-   Sistema de geração/prospecção de leads
-===================================================== */
+/* =========================================================
+   LEADXTERIOR V2
+   Demo frontend
+   ========================================================= */
 
+const $ = (selector) => document.querySelector(selector);
+const $$ = (selector) => document.querySelectorAll(selector);
 
-/* =====================================================
-   FRASES MOTIVACIONAIS
-===================================================== */
+/* =========================
+   DADOS
+========================= */
 
-const motivationPhrases = [
-    "Você quer ser um futuro milionário?",
-    "Enquanto muitos estão pensando, você está construindo.",
-    "Seu próximo cliente pode estar a uma pesquisa de distância.",
-    "Grandes resultados começam com uma pequena ação.",
-    "Não espere a oportunidade. Encontre ela.",
-    "Hoje você procura leads. Amanhã eles podem procurar você.",
-    "Foco no trabalho. O resultado vem depois."
+const motivations = [
+  "Você é um futuro milionário? Então bora trabalhar.",
+  "Enquanto muitos estão pensando, você está construindo.",
+  "Cada lead pode ser o cliente que muda seu mês.",
+  "Não espere oportunidade. Procure por ela.",
+  "Trabalhe em silêncio. Deixe seus resultados falarem.",
+  "Hoje é mais um dia para chegar mais perto do seu objetivo.",
+  "Quem prospecta, vende. Quem vende, cresce."
 ];
 
-const randomPhrase =
-    motivationPhrases[
-        Math.floor(Math.random() * motivationPhrases.length)
-    ];
+const cities = {
+  BR: [
+    "Jales", "São Paulo", "Campinas", "Ribeirão Preto",
+    "São José do Rio Preto", "Bauru", "Presidente Prudente",
+    "Araçatuba", "Sorocaba", "Santos", "Franca",
+    "Marília", "São Carlos", "Araraquara", "Piracicaba",
+    "Uberlândia", "Uberaba", "Belo Horizonte", "Juiz de Fora",
+    "Montes Claros", "Varginha", "Poços de Caldas"
+  ],
 
+  PT: [
+    "Lisboa", "Porto", "Braga", "Coimbra", "Aveiro",
+    "Faro", "Setúbal", "Leiria", "Sintra",
+    "Cascais", "Guimarães", "Viseu", "Évora"
+  ],
 
-const motivationPhrase =
-    document.getElementById("motivationPhrase");
-
-const introPhrase =
-    document.getElementById("introPhrase");
-
-if (motivationPhrase) {
-    motivationPhrase.textContent = randomPhrase;
-}
-
-if (introPhrase) {
-    introPhrase.textContent = randomPhrase;
-}
-
-
-/* =====================================================
-   CIDADES
-===================================================== */
-
-const CITIES = {
-
-    BR: [
-        "São Paulo",
-        "Rio de Janeiro",
-        "Belo Horizonte",
-        "Brasília",
-        "Curitiba",
-        "Campinas",
-        "Santos",
-        "Jundiaí",
-        "Sorocaba",
-        "Ribeirão Preto",
-        "São José dos Campos",
-        "São José do Rio Preto",
-        "Jales",
-        "Presidente Prudente",
-        "Marília",
-        "Bauru",
-        "Franca",
-        "Uberlândia",
-        "Uberaba",
-        "Juiz de Fora",
-        "Montes Claros",
-        "Contagem",
-        "Divinópolis",
-        "Londrina",
-        "Maringá",
-        "Joinville",
-        "Florianópolis",
-        "Porto Alegre",
-        "Caxias do Sul",
-        "Salvador",
-        "Feira de Santana",
-        "Recife",
-        "Fortaleza",
-        "Goiânia",
-        "Campo Grande",
-        "Cuiabá",
-        "Manaus",
-        "Belém"
-    ],
-
-    PT: [
-        "Lisboa",
-        "Porto",
-        "Braga",
-        "Coimbra",
-        "Aveiro",
-        "Faro",
-        "Setúbal",
-        "Sintra",
-        "Cascais",
-        "Guimarães",
-        "Leiria",
-        "Viseu",
-        "Évora",
-        "Funchal",
-        "Almada",
-        "Amadora"
-    ],
-
-    US: [
-        "New York",
-        "Los Angeles",
-        "Chicago",
-        "Houston",
-        "Phoenix",
-        "Philadelphia",
-        "San Antonio",
-        "San Diego",
-        "Dallas",
-        "Austin",
-        "Miami",
-        "Orlando",
-        "Tampa",
-        "Boston",
-        "Seattle",
-        "Denver",
-        "Atlanta",
-        "Las Vegas",
-        "San Francisco",
-        "Washington",
-        "Charlotte",
-        "Nashville",
-        "Detroit",
-        "Portland"
-    ]
-
+  US: [
+    "Miami", "Orlando", "New York", "Los Angeles",
+    "Boston", "Chicago", "Houston", "Dallas",
+    "Austin", "Atlanta", "Las Vegas", "San Diego",
+    "Phoenix", "Tampa", "Seattle"
+  ]
 };
 
+const businesses = {
+  BR: [
+    "Barbearia",
+    "Salão de beleza",
+    "Clínica odontológica",
+    "Clínica estética",
+    "Restaurante",
+    "Pizzaria",
+    "Hamburgueria",
+    "Loja de roupas",
+    "Academia",
+    "Studio de tatuagem",
+    "Pet shop",
+    "Auto center",
+    "Oficina mecânica",
+    "Imobiliária",
+    "Fotógrafo",
+    "Confeitaria",
+    "Doceria",
+    "Sorveteria",
+    "Mercado",
+    "Loja de móveis"
+  ],
 
-/* =====================================================
-   SUGESTÕES DE NEGÓCIOS
-===================================================== */
+  PT: [
+    "Barbearia",
+    "Cabeleireiro",
+    "Clínica dentária",
+    "Clínica estética",
+    "Restaurante",
+    "Café",
+    "Pastelaria",
+    "Pizzaria",
+    "Ginásio",
+    "Loja de roupa",
+    "Agência imobiliária",
+    "Fotógrafo",
+    "Confeitaria",
+    "Pet shop",
+    "Oficina automóvel"
+  ],
 
-const BUSINESS_SUGGESTIONS = {
-
-    BR: [
-        "Barbearia",
-        "Salão de beleza",
-        "Salão masculino",
-        "Clínica odontológica",
-        "Clínica médica",
-        "Clínica de estética",
-        "Estética",
-        "Academia",
-        "Restaurante",
-        "Hamburgueria",
-        "Pizzaria",
-        "Sorveteria",
-        "Padaria",
-        "Confeitaria",
-        "Doceria",
-        "Loja de roupas",
-        "Loja de móveis",
-        "Loja de celulares",
-        "Pet shop",
-        "Veterinário",
-        "Oficina mecânica",
-        "Auto center",
-        "Imobiliária",
-        "Hotel",
-        "Pousada",
-        "Fotógrafo",
-        "Designer",
-        "Agência de marketing",
-        "Sapataria",
-        "Salgados",
-        "Casa de festas",
-        "Escola",
-        "Curso profissionalizante"
-    ],
-
-    PT: [
-        "Barbearia",
-        "Salão de beleza",
-        "Cabeleireiro",
-        "Clínica dentária",
-        "Clínica médica",
-        "Clínica de estética",
-        "Restaurante",
-        "Hamburgueria",
-        "Pizzaria",
-        "Pastelaria",
-        "Padaria",
-        "Doçaria",
-        "Loja de roupa",
-        "Loja de móveis",
-        "Loja de telemóveis",
-        "Pet shop",
-        "Oficina automóvel",
-        "Imobiliária",
-        "Hotel",
-        "Alojamento local",
-        "Fotógrafo",
-        "Agência de marketing",
-        "Ginásio",
-        "Escola"
-    ],
-
-    US: [
-        "Barbershop",
-        "Hair salon",
-        "Beauty salon",
-        "Dental clinic",
-        "Medical clinic",
-        "Aesthetic clinic",
-        "Restaurant",
-        "Burger restaurant",
-        "Pizza restaurant",
-        "Bakery",
-        "Coffee shop",
-        "Clothing store",
-        "Furniture store",
-        "Cell phone store",
-        "Pet shop",
-        "Veterinary clinic",
-        "Auto repair shop",
-        "Real estate agency",
-        "Hotel",
-        "Motel",
-        "Photography studio",
-        "Marketing agency",
-        "Gym",
-        "Spa",
-        "School"
-    ]
-
+  US: [
+    "Barbershop",
+    "Beauty salon",
+    "Dental clinic",
+    "Med spa",
+    "Restaurant",
+    "Coffee shop",
+    "Pizza restaurant",
+    "Gym",
+    "Clothing store",
+    "Real estate agency",
+    "Tattoo studio",
+    "Auto repair shop",
+    "Pet shop",
+    "Bakery",
+    "Photography studio"
+  ]
 };
 
+const fakeNames = {
+  BR: [
+    "Studio Prime",
+    "Espaço Bella",
+    "Barbearia Imperial",
+    "Clínica Vida",
+    "Elite Concept",
+    "Casa do Corte",
+    "Urban Style",
+    "Espaço Saúde",
+    "Prime Estética",
+    "Bella Forma",
+    "Point Business",
+    "Studio Exclusive",
+    "Viva Bem",
+    "Golden Concept",
+    "Original Barber"
+  ],
 
-/* =====================================================
-   NORMALIZAÇÃO
-===================================================== */
+  PT: [
+    "Lisboa Prime",
+    "Studio Bella",
+    "Porto Concept",
+    "Espaço Elegance",
+    "Braga Style",
+    "Casa Prime",
+    "Urban Lisboa",
+    "Elite Beauty",
+    "Porto Saúde",
+    "Bella Studio",
+    "Concept Center",
+    "Premium Space",
+    "Original Style",
+    "Portugal Prime",
+    "Nova Era"
+  ],
+
+  US: [
+    "Prime Studio",
+    "Urban Barber",
+    "Elite Beauty",
+    "Downtown Concept",
+    "Miami Style",
+    "Premium Cuts",
+    "Modern House",
+    "Prime Dental",
+    "Urban Wellness",
+    "Golden Studio",
+    "Next Level",
+    "The Beauty Room",
+    "City Barber",
+    "Elite Center",
+    "Original Studio"
+  ]
+};
+
+/* =========================
+   ESTADO
+========================= */
+
+let leads = JSON.parse(localStorage.getItem("leadxterior_leads") || "[]");
+let savedLeads = JSON.parse(localStorage.getItem("leadxterior_saved") || "[]");
+let history = JSON.parse(localStorage.getItem("leadxterior_history") || "[]");
+let searchCount = Number(localStorage.getItem("leadxterior_searches") || 0);
+
+/* =========================
+   UTILIDADES
+========================= */
+
+function saveState() {
+  localStorage.setItem("leadxterior_leads", JSON.stringify(leads));
+  localStorage.setItem("leadxterior_saved", JSON.stringify(savedLeads));
+  localStorage.setItem("leadxterior_history", JSON.stringify(history));
+  localStorage.setItem("leadxterior_searches", searchCount);
+}
 
 function normalizeText(text) {
-
-    return String(text || "")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toLowerCase()
-        .trim();
-
+  return String(text || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
 }
 
+function randomFrom(array) {
+  return array[Math.floor(Math.random() * array.length)];
+}
 
-/* =====================================================
-   ELEMENTOS
-===================================================== */
+function randomPhone(country) {
+  if (country === "BR") {
+    return `(17) 9${Math.floor(1000 + Math.random() * 8999)}-${Math.floor(1000 + Math.random() * 8999)}`;
+  }
 
-const country =
-    document.getElementById("country");
+  if (country === "PT") {
+    return `9${Math.floor(10000000 + Math.random() * 89999999)}`;
+  }
 
-const business =
-    document.getElementById("business");
+  return `+1 (${Math.floor(200 + Math.random() * 700)}) ${Math.floor(200 + Math.random() * 700)}-${Math.floor(1000 + Math.random() * 8999)}`;
+}
 
-const city =
-    document.getElementById("city");
+function getInitials(name) {
+  return name
+    .split(" ")
+    .slice(0, 2)
+    .map(word => word[0])
+    .join("")
+    .toUpperCase();
+}
 
-const quantity =
-    document.getElementById("quantity");
+function countryName(country) {
+  return {
+    BR: "Brasil",
+    PT: "Portugal",
+    US: "Estados Unidos"
+  }[country];
+}
 
-const businessSuggestions =
-    document.getElementById("businessSuggestions");
+/* =========================
+   MOTIVAÇÃO
+========================= */
 
-const citySuggestions =
-    document.getElementById("citySuggestions");
+function updateMotivation() {
+  const phrase = randomFrom(motivations);
 
-const searchButton =
-    document.getElementById("searchButton");
+  if ($("#dashboardPhrase")) {
+    $("#dashboardPhrase").textContent = phrase;
+  }
 
-const results =
-    document.getElementById("results");
+  if ($("#introPhrase")) {
+    $("#introPhrase").textContent = phrase;
+  }
+}
 
-const loading =
-    document.getElementById("loading");
+updateMotivation();
 
-const resultsHeader =
-    document.getElementById("resultsHeader");
-
-const resultCount =
-    document.getElementById("resultCount");
-
-
-/* =====================================================
-   AUTOCOMPLETE - NEGÓCIO
-===================================================== */
+/* =========================
+   AUTOCOMPLETE NEGÓCIO
+========================= */
 
 function renderBusinessSuggestions() {
+  const country = $("#country").value;
+  const value = normalizeText($("#business").value);
 
-    const countryCode = country.value;
+  let results = businesses[country];
 
-    const search =
-        normalizeText(business.value);
+  if (value) {
+    results = results.filter(item =>
+      normalizeText(item).includes(value)
+    );
+  }
 
-    let list =
-        BUSINESS_SUGGESTIONS[countryCode] || [];
+  results = results.slice(0, 7);
 
-    if (search) {
+  const container = $("#businessSuggestions");
 
-        list = list.filter(item =>
-            normalizeText(item).includes(search)
-        );
+  if (!results.length) {
+    container.style.display = "none";
+    return;
+  }
 
-    }
+  container.innerHTML = results.map(item => `
+    <div class="suggestion" data-business="${item}">
+      ${item}
+    </div>
+  `).join("");
 
-    list = list.slice(0, 10);
+  container.style.display = "block";
 
-    businessSuggestions.innerHTML = "";
-
-    if (!list.length) {
-        businessSuggestions.classList.remove("show");
-        return;
-    }
-
-    list.forEach(item => {
-
-        const element =
-            document.createElement("div");
-
-        element.className = "suggestion-item";
-
-        element.innerHTML = `
-            ${item}
-            <small>Categoria / negócio</small>
-        `;
-
-        element.addEventListener("click", () => {
-
-            business.value = item;
-
-            businessSuggestions.classList.remove("show");
-
-            city.focus();
-
-        });
-
-        businessSuggestions.appendChild(element);
-
+  container.querySelectorAll(".suggestion").forEach(item => {
+    item.addEventListener("click", () => {
+      $("#business").value = item.dataset.business;
+      container.style.display = "none";
+      $("#city").focus();
     });
-
-    businessSuggestions.classList.add("show");
-
+  });
 }
 
-
-/* =====================================================
-   AUTOCOMPLETE - CIDADE
-===================================================== */
+/* =========================
+   AUTOCOMPLETE CIDADE
+========================= */
 
 function renderCitySuggestions() {
+  const country = $("#country").value;
+  const value = normalizeText($("#city").value);
 
-    const countryCode = country.value;
+  let results = cities[country];
 
-    const search =
-        normalizeText(city.value);
+  if (value) {
+    results = results.filter(item =>
+      normalizeText(item).includes(value)
+    );
+  }
 
-    let list =
-        CITIES[countryCode] || [];
+  results = results.slice(0, 7);
 
-    if (search) {
+  const container = $("#citySuggestions");
 
-        list = list.filter(item =>
-            normalizeText(item).includes(search)
-        );
+  if (!results.length) {
+    container.style.display = "none";
+    return;
+  }
 
-    }
+  container.innerHTML = results.map(item => `
+    <div class="suggestion" data-city="${item}">
+      ${item}
+    </div>
+  `).join("");
 
-    list = list.slice(0, 10);
+  container.style.display = "block";
 
-    citySuggestions.innerHTML = "";
-
-    if (!list.length) {
-        citySuggestions.classList.remove("show");
-        return;
-    }
-
-    list.forEach(item => {
-
-        const element =
-            document.createElement("div");
-
-        element.className = "suggestion-item";
-
-        element.innerHTML = `
-            ${item}
-            <small>Cidade disponível</small>
-        `;
-
-        element.addEventListener("click", () => {
-
-            city.value = item;
-
-            citySuggestions.classList.remove("show");
-
-        });
-
-        citySuggestions.appendChild(element);
-
+  container.querySelectorAll(".suggestion").forEach(item => {
+    item.addEventListener("click", () => {
+      $("#city").value = item.dataset.city;
+      container.style.display = "none";
     });
-
-    citySuggestions.classList.add("show");
-
+  });
 }
 
+$("#business").addEventListener("input", renderBusinessSuggestions);
+$("#business").addEventListener("focus", renderBusinessSuggestions);
 
-/* =====================================================
-   EVENTOS DO AUTOCOMPLETE
-===================================================== */
+$("#city").addEventListener("input", renderCitySuggestions);
+$("#city").addEventListener("focus", renderCitySuggestions);
 
-business.addEventListener(
-    "focus",
-    renderBusinessSuggestions
-);
+$("#country").addEventListener("change", () => {
+  $("#business").value = "";
+  $("#city").value = "";
 
-business.addEventListener(
-    "input",
-    renderBusinessSuggestions
-);
-
-city.addEventListener(
-    "focus",
-    renderCitySuggestions
-);
-
-city.addEventListener(
-    "input",
-    renderCitySuggestions
-);
-
-
-country.addEventListener("change", () => {
-
-    business.value = "";
-    city.value = "";
-
-    businessSuggestions.classList.remove("show");
-    citySuggestions.classList.remove("show");
-
+  $("#businessSuggestions").style.display = "none";
+  $("#citySuggestions").style.display = "none";
 });
 
+/* =========================
+   FECHAR SUGESTÕES
+========================= */
 
-document.addEventListener("click", event => {
-
-    if (!event.target.closest(".autocomplete-field")) {
-
-        businessSuggestions.classList.remove("show");
-        citySuggestions.classList.remove("show");
-
-    }
-
+document.addEventListener("click", (event) => {
+  if (!event.target.closest(".autocomplete-field")) {
+    $("#businessSuggestions").style.display = "none";
+    $("#citySuggestions").style.display = "none";
+  }
 });
 
+/* =========================
+   GERAR LEADS DEMO
+========================= */
 
-/* =====================================================
-   ENTER
-===================================================== */
+function generateLeads(country, business, city, quantity) {
 
-business.addEventListener("keydown", event => {
+  const generated = [];
 
-    if (event.key === "Enter") {
+  for (let i = 0; i < quantity; i++) {
 
-        event.preventDefault();
+    const nameBase = fakeNames[country][i % fakeNames[country].length];
 
-        city.focus();
+    const variations = [
+      "",
+      " Premium",
+      " Concept",
+      " Studio",
+      " Prime",
+      " Center"
+    ];
 
+    const name = nameBase + variations[i % variations.length];
+
+    const hasWebsite = i % 4 !== 0;
+    const hasInstagram = i % 5 !== 0;
+    const hasWhatsApp = i % 3 !== 0;
+
+    let opportunity = "medium";
+    let score = 60;
+
+    if (!hasWebsite) {
+      score += 18;
     }
 
-});
-
-
-city.addEventListener("keydown", event => {
-
-    if (event.key === "Enter") {
-
-        event.preventDefault();
-
-        searchLeads();
-
+    if (hasWhatsApp) {
+      score += 8;
     }
 
-});
-
-
-/* =====================================================
-   DADOS DEMO
-===================================================== */
-
-const demoBusinesses = {
-
-    BR: [
-        "Studio Prime",
-        "Espaço Bella",
-        "Barbearia Central",
-        "Clínica Vida",
-        "Estética Prime",
-        "Sabor & Cia",
-        "Burger House",
-        "Doce Encanto",
-        "Auto Center Brasil",
-        "Pet Mais"
-    ],
-
-    PT: [
-        "Barbearia Lisboa",
-        "Espaço Beleza",
-        "Clínica Saúde",
-        "Porto Burger",
-        "Doçaria Central",
-        "Auto Lisboa",
-        "Pet House",
-        "Studio Porto"
-    ],
-
-    US: [
-        "Downtown Barbers",
-        "Prime Beauty Studio",
-        "Miami Dental",
-        "Burger House",
-        "Sunshine Auto",
-        "Urban Fitness",
-        "Happy Paws",
-        "Elite Real Estate"
-    ]
-
-};
-
-
-/* =====================================================
-   ESCAPE HTML
-===================================================== */
-
-function escapeHTML(value) {
-
-    return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-}
-
-
-/* =====================================================
-   CRIAR LEADS
-===================================================== */
-
-function generateLeads() {
-
-    const countryCode =
-        country.value;
-
-    const businessQuery =
-        business.value.trim() || "Empresa";
-
-    const cityQuery =
-        city.value.trim() || "Cidade";
-
-    const amount =
-        Number(quantity.value) || 15;
-
-    const names =
-        demoBusinesses[countryCode] || [];
-
-    const leads = [];
-
-    for (let i = 0; i < amount; i++) {
-
-        const base =
-            names[i % names.length];
-
-        const number =
-            String(11 + i).padStart(2, "0");
-
-        let phone = "";
-
-        let contactType = "";
-
-        if (i % 3 !== 0) {
-
-            phone =
-                countryCode === "BR"
-                    ? `+55 11 98888-${number}0${i}`
-                    : countryCode === "PT"
-                    ? `+351 91 888 88 ${number}`
-                    : `+1 (305) 555-${number}0${i}`;
-
-            contactType = "whatsapp";
-
-        } else {
-
-            phone =
-                countryCode === "BR"
-                    ? `(17) 3200-${number}0${i}`
-                    : countryCode === "PT"
-                    ? `21 3000 ${number}`
-                    : `+1 (305) 555-${number}0${i}`;
-
-            contactType = "phone";
-
-        }
-
-
-        const website =
-            i % 4 === 0
-                ? ""
-                : `https://www.google.com/search?q=${encodeURIComponent(
-                    base + " " + cityQuery
-                )}`;
-
-
-        leads.push({
-
-            id:
-                Date.now() +
-                "-" +
-                i,
-
-            name:
-                `${base} ${number}`,
-
-            category:
-                businessQuery,
-
-            city:
-                cityQuery,
-
-            country:
-                countryCode,
-
-            website:
-                website,
-
-            phone:
-                phone,
-
-            contactType:
-                contactType
-
-        });
-
+    if (hasInstagram) {
+      score += 5;
     }
 
-    return leads;
-
-}
-
-
-/* =====================================================
-   ABORDAGEM
-===================================================== */
-
-function getApproach(lead) {
-
-    if (lead.country === "BR") {
-
-        return `Olá! Tudo bem? Meu nome é João. Encontrei a ${lead.name} e vi que vocês trabalham com ${lead.category}. Eu trabalho com soluções digitais e acredito que posso ajudar a empresa a conseguir uma presença online mais profissional. Posso te explicar rapidinho?`;
-
+    if (score >= 78) {
+      opportunity = "high";
+    } else if (score < 55) {
+      opportunity = "low";
     }
 
-
-    if (lead.country === "PT") {
-
-        return `Olá! Tudo bem? O meu nome é João. Encontrei a ${lead.name} e reparei que trabalham na área de ${lead.category}. Trabalho com soluções digitais e acredito que posso ajudar a melhorar a presença online da empresa. Posso explicar-lhe rapidamente a ideia?`;
-
-    }
-
-
-    return `Hi! How are you? My name is João. I came across ${lead.name} and noticed that you work in the ${lead.category} industry. I work with digital solutions and I believe I could help improve your online presence. Can I quickly explain the idea?`;
-
-}
-
-
-/* =====================================================
-   SCRIPT DE LIGAÇÃO
-===================================================== */
-
-function getCallScript(lead) {
-
-    if (lead.country === "BR") {
-
-        return `Olá, tudo bem? Eu estou falando com o responsável pela ${lead.name}? Meu nome é João e trabalho com soluções digitais. Encontrei a empresa de vocês e queria apresentar uma ideia rápida que pode ajudar na presença online.`;
-
-    }
-
-
-    if (lead.country === "PT") {
-
-        return `Olá, boa tarde. Estou a falar com o responsável pela ${lead.name}? O meu nome é João e trabalho com soluções digitais. Encontrei a empresa e gostaria de apresentar uma ideia rápida que pode ajudar a melhorar a presença online.`;
-
-    }
-
-
-    return `Hi, how are you? Am I speaking with the person responsible for ${lead.name}? My name is João and I work with digital solutions. I found your business online and I have a quick idea that could improve your online presence.`;
-
-}
-
-
-/* =====================================================
-   RENDER LEAD
-===================================================== */
-
-function renderLead(lead, index) {
-
-    const badge =
-        lead.contactType === "whatsapp"
-            ? `<span class="badge badge-whatsapp">WHATSAPP</span>`
-            : `<span class="badge badge-phone">TELEFONE</span>`;
-
-
-    const phoneText =
-        lead.contactType === "phone"
-            ? `${lead.phone} — LIGAR`
-            : lead.phone;
-
-
-    const websiteHTML =
-        lead.website
-            ? `<a href="${lead.website}" target="_blank" rel="noopener noreferrer">🌐 Ver site</a>`
-            : `<span>🌐 Site off</span>`;
-
-
-    const card =
-        document.createElement("article");
-
-    card.className = "lead-card";
-
-    card.style.animationDelay =
-        `${index * 0.05}s`;
-
-
-    card.innerHTML = `
-
-        <div class="lead-top">
-
-            <div>
-                <div class="lead-name">
-                    ${escapeHTML(lead.name)}
-                </div>
-
-                <div class="lead-category">
-                    ${escapeHTML(lead.category)}
-                    ·
-                    ${escapeHTML(lead.city)}
-                </div>
-            </div>
-
-            ${badge}
-
-        </div>
-
-
-        <div class="lead-info">
-
-            ${websiteHTML}
-
-            <span>
-                📞 ${escapeHTML(phoneText)}
-            </span>
-
-        </div>
-
-
-        <div class="call-script">
-
-            <strong>O QUE FALAR NA LIGAÇÃO</strong>
-
-            <p>
-                ${escapeHTML(getCallScript(lead))}
-            </p>
-
-        </div>
-
-
-        <div class="lead-actions">
-
-            <button
-                class="copy-approach">
-                💬 Copiar abordagem
-            </button>
-
-            <button
-                class="save-lead">
-                ★ Salvar
-            </button>
-
-        </div>
-
-    `;
-
-
-    /* COPIAR ABORDAGEM */
-
-    card
-        .querySelector(".copy-approach")
-        .addEventListener("click", async () => {
-
-            await copyText(
-                getApproach(lead)
-            );
-
-            alert("Abordagem copiada!");
-
-        });
-
-
-    /* SALVAR */
-
-    card
-        .querySelector(".save-lead")
-        .addEventListener("click", () => {
-
-            saveLead(lead);
-
-            updateStats();
-
-            alert("Lead salvo!");
-
-        });
-
-
-    return card;
-
-}
-
-
-/* =====================================================
-   COPIAR
-===================================================== */
-
-async function copyText(text) {
-
-    try {
-
-        await navigator.clipboard.writeText(text);
-
-    } catch {
-
-        const textarea =
-            document.createElement("textarea");
-
-        textarea.value = text;
-
-        document.body.appendChild(textarea);
-
-        textarea.select();
-
-        document.execCommand("copy");
-
-        textarea.remove();
-
-    }
-
-}
-
-
-/* =====================================================
-   STORAGE
-===================================================== */
-
-function getSavedLeads() {
-
-    return JSON.parse(
-        localStorage.getItem("leadxterior_saved") || "[]"
-    );
-
-}
-
-
-function saveLead(lead) {
-
-    const saved =
-        getSavedLeads();
-
-    if (
-        !saved.some(
-            item => item.id === lead.id
-        )
-    ) {
-
-        saved.push(lead);
-
-        localStorage.setItem(
-            "leadxterior_saved",
-            JSON.stringify(saved)
-        );
-
-    }
-
-}
-
-
-function getHistory() {
-
-    return JSON.parse(
-        localStorage.getItem("leadxterior_history") || "[]"
-    );
-
-}
-
-
-function addHistory(search) {
-
-    const history =
-        getHistory();
-
-    history.unshift({
-
-        ...search,
-
-        date:
-            new Date().toLocaleString(
-                "pt-BR"
-            )
-
+    generated.push({
+      id: `${Date.now()}-${i}-${Math.random().toString(36).slice(2)}`,
+      name,
+      country,
+      business: business || randomFrom(businesses[country]),
+      city: city || randomFrom(cities[country]),
+      phone: randomPhone(country),
+      whatsapp: hasWhatsApp ? randomPhone(country) : null,
+      website: hasWebsite ? `https://www.google.com/search?q=${encodeURIComponent(name + " " + city)}` : null,
+      instagram: hasInstagram ? `https://www.instagram.com/explore/search/keyword/?q=${encodeURIComponent(name)}` : null,
+      opportunity,
+      score,
+      status: "new",
+      saved: false,
+      createdAt: new Date().toISOString()
     });
+  }
 
-    localStorage.setItem(
-        "leadxterior_history",
-        JSON.stringify(
-            history.slice(0, 30)
-        )
-    );
-
+  return generated;
 }
 
-
-function getSearchCount() {
-
-    return Number(
-        localStorage.getItem(
-            "leadxterior_searches"
-        ) || 0
-    );
-
-}
-
-
-/* =====================================================
-   BUSCAR
-===================================================== */
+/* =========================
+   BUSCAR LEADS
+========================= */
 
 async function searchLeads() {
 
-    const selectedBusiness =
-        business.value.trim();
+  const country = $("#country").value;
+  const business = $("#business").value.trim();
+  const city = $("#city").value.trim();
+  const quantity = Number($("#quantity").value);
 
-    const selectedCity =
-        city.value.trim();
+  if (!business) {
+    $("#business").focus();
+    alert("Digite o tipo de negócio.");
+    return;
+  }
 
-    if (!selectedBusiness) {
+  if (!city) {
+    $("#city").focus();
+    alert("Digite ou selecione uma cidade.");
+    return;
+  }
 
-        alert("Digite um negócio ou categoria.");
+  $("#results").classList.add("hidden");
+  $("#loading").classList.remove("hidden");
+  $("#searchBtn").disabled = true;
 
-        business.focus();
+  await new Promise(resolve => setTimeout(resolve, 1800));
 
-        return;
+  const newLeads = generateLeads(
+    country,
+    business,
+    city,
+    quantity
+  );
 
-    }
+  leads = [...newLeads, ...leads];
 
+  searchCount++;
 
-    if (!selectedCity) {
+  history.unshift({
+    id: Date.now(),
+    country,
+    business,
+    city,
+    quantity,
+    date: new Date().toLocaleString("pt-BR")
+  });
 
-        alert("Digite ou escolha uma cidade.");
+  history = history.slice(0, 30);
 
-        city.focus();
+  saveState();
 
-        return;
+  $("#loading").classList.add("hidden");
+  $("#results").classList.remove("hidden");
+  $("#searchBtn").disabled = false;
 
-    }
+  renderLeads(newLeads);
 
+  $("#resultCount").textContent = `${newLeads.length} leads`;
 
-    businessSuggestions.classList.remove("show");
-    citySuggestions.classList.remove("show");
+  $("#resultDescription").textContent =
+    `${business} em ${city} • ${countryName(country)}`;
 
-
-    loading.classList.remove("hidden");
-
-    results.innerHTML = "";
-
-    resultsHeader.classList.add("hidden");
-
-
-    /*
-       Simula uma busca.
-       Quando conectar uma API real,
-       esta parte será substituída pela chamada.
-    */
-
-    await new Promise(resolve =>
-        setTimeout(resolve, 1800)
-    );
-
-
-    const leads =
-        generateLeads();
-
-
-    loading.classList.add("hidden");
-
-    resultsHeader.classList.remove("hidden");
-
-    resultCount.textContent =
-        `${leads.length} encontrados`;
-
-
-    leads.forEach((lead, index) => {
-
-        results.appendChild(
-            renderLead(lead, index)
-        );
-
-    });
-
-
-    const searches =
-        getSearchCount() + 1;
-
-
-    localStorage.setItem(
-        "leadxterior_searches",
-        searches
-    );
-
-
-    addHistory({
-
-        country:
-            country.value,
-
-        business:
-            selectedBusiness,
-
-        city:
-            selectedCity,
-
-        quantity:
-            leads.length
-
-    });
-
-
-    updateStats();
-
+  updateDashboard();
+  renderHistory();
+  renderCRM();
 }
 
+/* =========================
+   RENDER LEAD
+========================= */
 
-/* =====================================================
-   PESQUISAR
-===================================================== */
+function renderLeads(list) {
 
-searchButton.addEventListener(
-    "click",
-    searchLeads
-);
+  const container = $("#leadList");
 
+  container.innerHTML = list.map((lead, index) => {
 
-/* =====================================================
-   NAVEGAÇÃO
-===================================================== */
+    const opportunityText = {
+      high: "ALTA OPORTUNIDADE",
+      medium: "MÉDIA OPORTUNIDADE",
+      low: "BAIXA OPORTUNIDADE"
+    }[lead.opportunity];
 
-const navItems =
-    document.querySelectorAll(".nav-item");
+    return `
+      <article class="lead-card" style="animation-delay:${index * 40}ms">
 
-const sections =
-    document.querySelectorAll(".section");
+        <div class="lead-top">
 
+          <div class="lead-main">
 
-function openSection(id) {
+            <div class="lead-avatar">
+              ${getInitials(lead.name)}
+            </div>
 
-    sections.forEach(section => {
+            <div class="lead-info">
 
-        section.classList.remove(
-            "active-section"
-        );
+              <h3>${lead.name}</h3>
 
-    });
+              <p>
+                ${lead.business} • ${lead.city}, ${countryName(lead.country)}
+              </p>
 
+              <div class="lead-tags">
+                <span class="tag">Score ${lead.score}/100</span>
 
-    navItems.forEach(item => {
+                ${!lead.website
+                  ? `<span class="tag">Sem site</span>`
+                  : `<span class="tag">Site encontrado</span>`
+                }
 
-        item.classList.remove("active");
+                ${lead.whatsapp
+                  ? `<span class="tag">WhatsApp</span>`
+                  : `<span class="tag">Sem WhatsApp</span>`
+                }
 
-    });
+                ${lead.instagram
+                  ? `<span class="tag">Instagram</span>`
+                  : ""
+                }
+              </div>
 
+            </div>
 
-    const section =
-        document.getElementById(id);
+          </div>
 
-    const nav =
-        document.querySelector(
-            `[data-section="${id}"]`
-        );
+          <div class="opportunity ${lead.opportunity}">
+            ${opportunityText}
+          </div>
 
+        </div>
 
-    if (section) {
+        <div class="lead-details">
 
-        section.classList.add(
-            "active-section"
-        );
+          <div class="detail-box">
+            <small>Telefone</small>
+            <span>${lead.phone}</span>
+          </div>
 
-    }
+          <div class="detail-box">
+            <small>WhatsApp</small>
+            ${
+              lead.whatsapp
+              ? `<a href="https://wa.me/${cleanPhone(lead.whatsapp)}" target="_blank">${lead.whatsapp}</a>`
+              : `<span>Não encontrado</span>`
+            }
+          </div>
 
+          <div class="detail-box">
+            <small>Site</small>
+            ${
+              lead.website
+              ? `<a href="${lead.website}" target="_blank">Abrir site ↗</a>`
+              : `<span>site off</span>`
+            }
+          </div>
 
-    if (nav) {
+          <div class="detail-box">
+            <small>Instagram</small>
+            ${
+              lead.instagram
+              ? `<a href="${lead.instagram}" target="_blank">Ver Instagram ↗</a>`
+              : `<span>Não encontrado</span>`
+            }
+          </div>
 
-        nav.classList.add("active");
+        </div>
 
-    }
+        <div class="lead-actions">
 
+          ${
+            lead.whatsapp
+            ? `
+              <button class="action-btn whatsapp" data-action="whatsapp" data-id="${lead.id}">
+                WhatsApp
+              </button>
+            `
+            : ""
+          }
 
-    if (id === "saved") {
+          <button class="action-btn primary" data-action="approach" data-id="${lead.id}">
+            ✍ Abordagem
+          </button>
 
-        renderSaved();
+          <button class="action-btn" data-action="call" data-id="${lead.id}">
+            ☏ Ligação
+          </button>
 
-    }
+          <button class="action-btn" data-action="proposal" data-id="${lead.id}">
+            📝 Proposta
+          </button>
 
+          <button class="action-btn" data-action="crm" data-id="${lead.id}">
+            ▣ CRM
+          </button>
 
-    if (id === "history") {
+          <button class="action-btn ${savedLeads.some(x => x.id === lead.id) ? "starred" : ""}"
+                  data-action="save"
+                  data-id="${lead.id}">
+            ★ ${savedLeads.some(x => x.id === lead.id) ? "Salvo" : "Salvar"}
+          </button>
 
-        renderHistory();
+        </div>
 
-    }
+      </article>
+    `;
+  }).join("");
 
+  attachLeadEvents(container);
 }
 
+/* =========================
+   TELEFONE
+========================= */
 
-navItems.forEach(item => {
+function cleanPhone(phone) {
+  return String(phone || "").replace(/\D/g, "");
+}
 
-    item.addEventListener("click", () => {
+/* =========================
+   EVENTOS DOS LEADS
+========================= */
 
-        openSection(
-            item.dataset.section
-        );
+function attachLeadEvents(container) {
+
+  container.querySelectorAll("[data-action]").forEach(button => {
+
+    button.addEventListener("click", () => {
+
+      const lead = leads.find(item =>
+        item.id === button.dataset.id
+      );
+
+      if (!lead) return;
+
+      const action = button.dataset.action;
+
+      if (action === "whatsapp") {
+        openWhatsApp(lead);
+      }
+
+      if (action === "approach") {
+        showApproach(lead);
+      }
+
+      if (action === "call") {
+        showCallScript(lead);
+      }
+
+      if (action === "proposal") {
+        showProposal(lead);
+      }
+
+      if (action === "crm") {
+        showCRMSelector(lead);
+      }
+
+      if (action === "save") {
+        toggleSaved(lead);
+      }
 
     });
 
+  });
+}
+
+/* =========================
+   WHATSAPP
+========================= */
+
+function openWhatsApp(lead) {
+
+  if (!lead.whatsapp) {
+    alert("Este lead não possui WhatsApp encontrado.");
+    return;
+  }
+
+  const message = getApproach(lead);
+
+  const url =
+    `https://wa.me/${cleanPhone(lead.whatsapp)}?text=${encodeURIComponent(message)}`;
+
+  window.open(url, "_blank");
+}
+
+/* =========================
+   ABORDAGEM
+========================= */
+
+function getApproach(lead) {
+
+  if (lead.country === "BR") {
+
+    return `Olá! Tudo bem? Me chamo João.
+
+Encontrei a ${lead.name} e gostei bastante do trabalho de vocês.
+
+Eu trabalho com soluções digitais para empresas e percebi que posso ajudar a ${lead.name} a ter uma presença ainda mais profissional na internet.
+
+Posso te mostrar uma ideia rápida e sem compromisso de como ficaria?`;
+
+  }
+
+  if (lead.country === "PT") {
+
+    return `Olá! Tudo bem?
+
+O meu nome é João e trabalho com soluções digitais para empresas.
+
+Encontrei a ${lead.name} e estive a analisar a presença da empresa online.
+
+Tenho uma ideia simples que pode ajudar a melhorar a apresentação do negócio na internet.
+
+Posso enviar-lhe uma pequena demonstração, sem qualquer compromisso?`;
+
+  }
+
+  return `Hi! How are you?
+
+My name is João and I work with digital solutions for local businesses.
+
+I found ${lead.name} and took a quick look at your online presence.
+
+I have a simple idea that could help make your business look even more professional online.
+
+Would you like me to send you a quick demo?`;
+}
+
+/* =========================
+   ROTEIRO DE LIGAÇÃO
+========================= */
+
+function getCallScript(lead) {
+
+  if (lead.country === "BR") {
+
+    return `Olá, tudo bem? Eu poderia falar com o responsável pela ${lead.name}?
+
+Meu nome é João.
+
+Eu trabalho ajudando empresas locais a melhorar a presença delas na internet.
+
+Encontrei a empresa de vocês e queria apresentar uma ideia bem rápida.
+
+Não quero tomar muito tempo. Posso explicar em 30 segundos?
+
+[ESPERE]
+
+Eu analisei a presença digital da empresa e acredito que existe uma oportunidade de melhorar a forma como novos clientes encontram vocês.
+
+Eu posso preparar uma demonstração sem compromisso e enviar pelo WhatsApp.
+
+Qual seria o melhor número para eu enviar?`;
+
+  }
+
+  if (lead.country === "PT") {
+
+    return `Olá, boa tarde. Poderia falar com o responsável pela ${lead.name}?
+
+O meu nome é João e trabalho com soluções digitais para empresas.
+
+Encontrei a vossa empresa online e reparei que existe uma oportunidade interessante para melhorar a presença digital.
+
+Não quero tomar muito do seu tempo.
+
+Posso explicar rapidamente a ideia?
+
+[ESPERE]
+
+Posso preparar uma demonstração sem qualquer compromisso e enviar por WhatsApp ou e-mail.
+
+Qual seria a melhor forma de enviar?`;
+
+  }
+
+  return `Hi, could I speak with the person responsible for ${lead.name}?
+
+My name is João and I help local businesses improve their online presence.
+
+I found your business online and noticed an opportunity that could help you attract more customers.
+
+I don't want to take much of your time.
+
+Can I explain the idea in 30 seconds?
+
+[WAIT]
+
+I can prepare a quick demo specifically for your business, completely free.
+
+What's the best way to send it to you?`;
+}
+
+/* =========================
+   PROPOSTA
+========================= */
+
+function getProposal(lead) {
+
+  if (lead.country === "BR") {
+
+    return `PROPOSTA — ${lead.name}
+
+Olá!
+
+Preparei esta proposta pensando especificamente na ${lead.name}.
+
+OBJETIVO
+
+Criar uma presença digital mais profissional para facilitar que novos clientes encontrem e conheçam a empresa.
+
+O QUE PODE SER DESENVOLVIDO
+
+• Página profissional
+• Informações do negócio
+• Botão direto para WhatsApp
+• Localização
+• Serviços
+• Redes sociais
+• Design adaptado para celular
+• Estrutura focada em conversão
+
+INVESTIMENTO
+
+Projeto personalizado conforme a necessidade da empresa.
+
+PRÓXIMO PASSO
+
+Posso preparar uma demonstração visual antes de qualquer contratação.
+
+Sem compromisso.`;
+
+  }
+
+  if (lead.country === "PT") {
+
+    return `PROPOSTA — ${lead.name}
+
+Olá!
+
+Preparei uma proposta inicial para a ${lead.name}.
+
+OBJETIVO
+
+Criar uma presença digital moderna e profissional para ajudar novos clientes a encontrar e contactar a empresa.
+
+INCLUI
+
+• Página profissional
+• Serviços
+• Contacto direto
+• WhatsApp
+• Localização
+• Redes sociais
+• Design responsivo
+• Estrutura focada em conversão
+
+O projecto pode ser adaptado às necessidades específicas da empresa.
+
+Posso preparar uma demonstração visual sem qualquer compromisso.`;
+
+  }
+
+  return `PROPOSAL — ${lead.name}
+
+Hello!
+
+I prepared a quick proposal specifically for ${lead.name}.
+
+OBJECTIVE
+
+Create a modern and professional online presence that makes it easier for new customers to discover and contact the business.
+
+INCLUDES
+
+• Professional landing page
+• Services section
+• Direct contact
+• WhatsApp integration
+• Location
+• Social media
+• Mobile-friendly design
+• Conversion-focused structure
+
+I can prepare a free visual demo specifically for your business before you decide anything.`;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+function openModal(content) {
+  $("#modalContent").innerHTML = content;
+  $("#modalOverlay").classList.remove("hidden");
+}
+
+function closeModal() {
+  $("#modalOverlay").classList.add("hidden");
+}
+
+$("#closeModal").addEventListener("click", closeModal);
+
+$("#modalOverlay").addEventListener("click", event => {
+  if (event.target === $("#modalOverlay")) {
+    closeModal();
+  }
 });
 
+/* =========================
+   MODAL ABORDAGEM
+========================= */
 
-document
-    .getElementById("startSearch")
-    .addEventListener("click", () => {
+function showApproach(lead) {
 
-        openSection("leads");
+  const text = getApproach(lead);
 
-        setTimeout(() => {
-            business.focus();
-        }, 200);
+  openModal(`
+    <div class="eyebrow">ABORDAGEM PERSONALIZADA</div>
+    <h2>${lead.name}</h2>
+    <p class="modal-subtitle">
+      Mensagem preparada para ${countryName(lead.country)}.
+    </p>
+
+    <div class="modal-section">
+      <label>MENSAGEM</label>
+      <div class="modal-text" id="modalText">${text}</div>
+      <button class="copy-btn" onclick="copyModalText()">
+        Copiar mensagem
+      </button>
+    </div>
+  `);
+}
+
+/* =========================
+   MODAL LIGAÇÃO
+========================= */
+
+function showCallScript(lead) {
+
+  const text = getCallScript(lead);
+
+  openModal(`
+    <div class="eyebrow">ROTEIRO DE LIGAÇÃO</div>
+    <h2>${lead.name}</h2>
+    <p class="modal-subtitle">
+      Fale com segurança e seja profissional.
+    </p>
+
+    <div class="modal-section">
+      <label>O QUE FALAR</label>
+      <div class="modal-text" id="modalText">${text}</div>
+      <button class="copy-btn" onclick="copyModalText()">
+        Copiar roteiro
+      </button>
+    </div>
+  `);
+}
+
+/* =========================
+   MODAL PROPOSTA
+========================= */
+
+function showProposal(lead) {
+
+  const text = getProposal(lead);
+
+  openModal(`
+    <div class="eyebrow">PROPOSTA COMERCIAL</div>
+    <h2>${lead.name}</h2>
+    <p class="modal-subtitle">
+      Proposta inicial personalizada.
+    </p>
+
+    <div class="modal-section">
+      <label>PROPOSTA</label>
+      <div class="modal-text" id="modalText">${text}</div>
+      <button class="copy-btn" onclick="copyModalText()">
+        Copiar proposta
+      </button>
+    </div>
+  `);
+}
+
+function copyModalText() {
+
+  const text = $("#modalText").innerText;
+
+  navigator.clipboard.writeText(text)
+    .then(() => {
+      alert("Copiado!");
+    })
+    .catch(() => {
+      alert("Não foi possível copiar automaticamente.");
+    });
+}
+
+/* =========================
+   SALVAR LEAD
+========================= */
+
+function toggleSaved(lead) {
+
+  const exists = savedLeads.some(item => item.id === lead.id);
+
+  if (exists) {
+    savedLeads = savedLeads.filter(item => item.id !== lead.id);
+    lead.saved = false;
+  } else {
+    savedLeads.unshift(lead);
+    lead.saved = true;
+  }
+
+  saveState();
+
+  renderSaved();
+
+  const visibleResults = [...document.querySelectorAll(".lead-card")];
+
+  if (visibleResults.length) {
+    const current = leads.filter(item =>
+      visibleResults.some(card =>
+        card.querySelector(`[data-id="${item.id}"]`)
+      )
+    );
+
+    if (current.length) {
+      renderLeads(current);
+    }
+  }
+
+  updateDashboard();
+}
+
+/* =========================
+   CRM
+========================= */
+
+function showCRMSelector(lead) {
+
+  openModal(`
+    <div class="eyebrow">ATUALIZAR CRM</div>
+    <h2>${lead.name}</h2>
+    <p class="modal-subtitle">
+      Escolha a etapa atual desta oportunidade.
+    </p>
+
+    <div class="crm-options">
+      <button class="action-btn primary" onclick="changeLeadStatus('${lead.id}','new')">
+        Novo
+      </button>
+
+      <button class="action-btn" onclick="changeLeadStatus('${lead.id}','contacted')">
+        Contatado
+      </button>
+
+      <button class="action-btn" onclick="changeLeadStatus('${lead.id}','replied')">
+        Respondeu
+      </button>
+
+      <button class="action-btn" onclick="changeLeadStatus('${lead.id}','negotiating')">
+        Negociando
+      </button>
+
+      <button class="action-btn" onclick="changeLeadStatus('${lead.id}','closed')">
+        Fechou
+      </button>
+    </div>
+  `);
+}
+
+function changeLeadStatus(id, status) {
+
+  const lead = leads.find(item => item.id === id);
+
+  if (!lead) return;
+
+  lead.status = status;
+
+  saveState();
+  closeModal();
+
+  renderCRM();
+  updateDashboard();
+}
+
+/* =========================
+   RENDER CRM
+========================= */
+
+function renderCRM() {
+
+  const statuses = [
+    "new",
+    "contacted",
+    "replied",
+    "negotiating",
+    "closed"
+  ];
+
+  statuses.forEach(status => {
+
+    const container = $(`#pipeline-${status}`);
+    const count = $(`#count-${status}`);
+
+    if (!container || !count) return;
+
+    const filtered = leads.filter(
+      lead => lead.status === status
+    );
+
+    count.textContent = filtered.length;
+
+    container.innerHTML = filtered.slice(0, 15).map(lead => `
+      <div class="pipeline-card" data-crm-id="${lead.id}">
+        <strong>${lead.name}</strong>
+        <small>${lead.city}</small>
+        <span class="mini-score">
+          ${lead.score}/100
+        </span>
+      </div>
+    `).join("");
+
+    container.querySelectorAll("[data-crm-id]").forEach(card => {
+
+      card.addEventListener("click", () => {
+
+        const lead = leads.find(
+          item => item.id === card.dataset.crmId
+        );
+
+        if (lead) showCRMSelector(lead);
+      });
 
     });
+  });
+}
 
-
-/* =====================================================
-   SALVOS
-===================================================== */
+/* =========================
+   MEUS LEADS
+========================= */
 
 function renderSaved() {
 
-    const container =
-        document.getElementById(
-            "savedResults"
-        );
+  const container = $("#savedList");
 
+  if (!savedLeads.length) {
     container.innerHTML = "";
+    $("#emptySaved").classList.remove("hidden");
+    return;
+  }
 
-    const saved =
-        getSavedLeads();
+  $("#emptySaved").classList.add("hidden");
 
+  container.innerHTML = savedLeads.map(lead => `
+    <article class="lead-card">
 
-    if (!saved.length) {
+      <div class="lead-top">
 
-        container.innerHTML = `
-            <div class="welcome-card">
-                <div>
-                    <span class="small-title">
-                        NENHUM LEAD
-                    </span>
+        <div class="lead-main">
 
-                    <h2>
-                        Você ainda não salvou leads.
-                    </h2>
+          <div class="lead-avatar">
+            ${getInitials(lead.name)}
+          </div>
 
-                    <p>
-                        Encontre oportunidades e salve
-                        as melhores para trabalhar depois.
-                    </p>
-                </div>
+          <div class="lead-info">
+            <h3>${lead.name}</h3>
+
+            <p>
+              ${lead.business} • ${lead.city}
+            </p>
+
+            <div class="lead-tags">
+              <span class="tag">Score ${lead.score}/100</span>
+              <span class="tag">★ Favorito</span>
             </div>
-        `;
+          </div>
 
-        return;
+        </div>
 
-    }
+        <div class="opportunity ${lead.opportunity}">
+          ${lead.opportunity === "high"
+            ? "ALTA OPORTUNIDADE"
+            : lead.opportunity === "medium"
+              ? "MÉDIA OPORTUNIDADE"
+              : "BAIXA OPORTUNIDADE"}
+        </div>
 
+      </div>
 
-    saved.forEach((lead, index) => {
+      <div class="lead-actions">
 
-        container.appendChild(
-            renderLead(lead, index)
+        ${
+          lead.whatsapp
+          ? `<button class="action-btn whatsapp" data-saved-action="whatsapp" data-id="${lead.id}">
+              WhatsApp
+            </button>`
+          : ""
+        }
+
+        <button class="action-btn primary" data-saved-action="approach" data-id="${lead.id}">
+          ✍ Abordagem
+        </button>
+
+        <button class="action-btn" data-saved-action="crm" data-id="${lead.id}">
+          ▣ CRM
+        </button>
+
+        <button class="action-btn starred" data-saved-action="remove" data-id="${lead.id}">
+          ★ Remover
+        </button>
+
+      </div>
+
+    </article>
+  `).join("");
+
+  container.querySelectorAll("[data-saved-action]").forEach(button => {
+
+    button.addEventListener("click", () => {
+
+      const lead = leads.find(
+        item => item.id === button.dataset.id
+      );
+
+      if (!lead) return;
+
+      const action = button.dataset.savedAction;
+
+      if (action === "whatsapp") openWhatsApp(lead);
+      if (action === "approach") showApproach(lead);
+      if (action === "crm") showCRMSelector(lead);
+
+      if (action === "remove") {
+        savedLeads = savedLeads.filter(
+          item => item.id !== lead.id
         );
+
+        lead.saved = false;
+
+        saveState();
+        renderSaved();
+      }
 
     });
 
+  });
 }
 
-
-/* =====================================================
+/* =========================
    HISTÓRICO
-===================================================== */
+========================= */
 
 function renderHistory() {
 
-    const container =
-        document.getElementById(
-            "historyResults"
-        );
+  const container = $("#historyList");
 
+  if (!history.length) {
     container.innerHTML = "";
+    $("#emptyHistory").classList.remove("hidden");
+    return;
+  }
 
-    const history =
-        getHistory();
+  $("#emptyHistory").classList.add("hidden");
 
+  container.innerHTML = history.map(item => `
+    <div class="history-item">
 
-    if (!history.length) {
+      <div>
+        <strong>
+          ${item.business} — ${item.city}
+        </strong>
 
-        container.innerHTML = `
-            <div class="history-item">
-                <span>
-                    Nenhuma pesquisa realizada ainda.
-                </span>
-            </div>
-        `;
+        <small>
+          ${countryName(item.country)} •
+          ${item.quantity} leads •
+          ${item.date}
+        </small>
+      </div>
 
-        return;
+      <div class="history-badge">
+        ${item.quantity} leads
+      </div>
 
-    }
-
-
-    history.forEach(item => {
-
-        const element =
-            document.createElement("div");
-
-        element.className =
-            "history-item";
-
-        element.innerHTML = `
-
-            <div>
-
-                <strong>
-                    ${escapeHTML(item.business)}
-                </strong>
-
-                <span>
-                    · ${escapeHTML(item.city)}
-                </span>
-
-            </div>
-
-            <span>
-                ${escapeHTML(item.date)}
-            </span>
-
-        `;
-
-        container.appendChild(element);
-
-    });
-
+    </div>
+  `).join("");
 }
 
+$("#clearHistory").addEventListener("click", () => {
 
-/* =====================================================
-   ESTATÍSTICAS
-===================================================== */
+  if (!history.length) return;
 
-function updateStats() {
+  if (confirm("Deseja realmente apagar o histórico?")) {
 
-    document.getElementById(
-        "savedLeads"
-    ).textContent =
-        getSavedLeads().length;
+    history = [];
 
+    saveState();
+    renderHistory();
+  }
 
-    document.getElementById(
-        "totalSearches"
-    ).textContent =
-        getSearchCount();
+});
 
+/* =========================
+   DASHBOARD
+========================= */
 
-    const history =
-        getHistory();
+function updateDashboard() {
 
-    const total =
-        history.reduce(
-            (sum, item) =>
-                sum + Number(item.quantity || 0),
-            0
-        );
+  $("#statLeads").textContent = leads.length;
 
+  $("#statHot").textContent =
+    leads.filter(lead => lead.opportunity === "high").length;
 
-    document.getElementById(
-        "totalLeads"
-    ).textContent =
-        total;
+  $("#statContacted").textContent =
+    leads.filter(lead =>
+      ["contacted", "replied", "negotiating", "closed"]
+        .includes(lead.status)
+    ).length;
 
+  $("#statClosed").textContent =
+    leads.filter(lead => lead.status === "closed").length;
 }
 
+/* =========================
+   NAVEGAÇÃO
+========================= */
 
-/* =====================================================
+function showSection(sectionId) {
+
+  $$(".section").forEach(section => {
+    section.classList.remove("active-section");
+  });
+
+  const section = $(`#${sectionId}`);
+
+  if (!section) return;
+
+  section.classList.add("active-section");
+
+  $$(".nav-item").forEach(button => {
+    button.classList.toggle(
+      "active",
+      button.dataset.section === sectionId
+    );
+  });
+
+  const titles = {
+    dashboard: "Dashboard",
+    search: "Encontrar Leads",
+    crm: "CRM",
+    saved: "Meus Leads",
+    history: "Histórico"
+  };
+
+  $("#pageTitle").textContent = titles[sectionId] || "LEADXTERIOR";
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+  if (sectionId === "saved") renderSaved();
+  if (sectionId === "crm") renderCRM();
+  if (sectionId === "history") renderHistory();
+}
+
+$$(".nav-item").forEach(button => {
+
+  button.addEventListener("click", () => {
+    showSection(button.dataset.section);
+  });
+
+});
+
+$$("[data-go]").forEach(button => {
+
+  button.addEventListener("click", () => {
+    showSection(button.dataset.go);
+  });
+
+});
+
+/* =========================
+   QUICK SEARCH
+========================= */
+
+$$("[data-search]").forEach(button => {
+
+  button.addEventListener("click", () => {
+
+    const business = button.dataset.search;
+
+    showSection("search");
+
+    $("#business").value = business;
+    $("#city").focus();
+
+  });
+
+});
+
+/* =========================
+   ENTER
+========================= */
+
+$("#business").addEventListener("keydown", event => {
+
+  if (event.key === "Enter") {
+    $("#city").focus();
+  }
+
+});
+
+$("#city").addEventListener("keydown", event => {
+
+  if (event.key === "Enter") {
+    searchLeads();
+  }
+
+});
+
+/* =========================
+   BOTÃO PESQUISAR
+========================= */
+
+$("#searchBtn").addEventListener("click", searchLeads);
+
+/* =========================
    INICIALIZAÇÃO
-===================================================== */
+========================= */
 
-updateStats();
+renderSaved();
+renderHistory();
+renderCRM();
+updateDashboard();
+
+console.log(`
+LEADXTERIOR V2
+Sistema iniciado.
+
+Modo: DEMONSTRAÇÃO
+Leads reais: ainda não conectados
+Banco: LocalStorage
+`);
