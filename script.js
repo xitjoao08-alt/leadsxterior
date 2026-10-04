@@ -1,13 +1,3 @@
-/* =========================================================
-   LEADXTERIOR
-   Private Lead Generation Dashboard
-   ========================================================= */
-
-
-/* =========================
-   STORAGE
-========================= */
-
 const STORAGE = {
   saved: "leadxterior_saved",
   history: "leadxterior_history",
@@ -17,23 +7,36 @@ const STORAGE = {
 
 
 let state = {
-  saved: JSON.parse(localStorage.getItem(STORAGE.saved) || "[]"),
-  history: JSON.parse(localStorage.getItem(STORAGE.history) || "[]"),
-  found: Number(localStorage.getItem(STORAGE.found) || 0),
-  searches: Number(localStorage.getItem(STORAGE.searches) || 0)
+  saved: JSON.parse(
+    localStorage.getItem(STORAGE.saved) || "[]"
+  ),
+
+  history: JSON.parse(
+    localStorage.getItem(STORAGE.history) || "[]"
+  ),
+
+  found: Number(
+    localStorage.getItem(STORAGE.found) || 0
+  ),
+
+  searches: Number(
+    localStorage.getItem(STORAGE.searches) || 0
+  )
 };
 
 
-/* =========================
-   HELPERS
-========================= */
+const $ = selector =>
+  document.querySelector(selector);
 
-const $ = (selector) => document.querySelector(selector);
+const $$ = selector =>
+  document.querySelectorAll(selector);
 
-const $$ = (selector) => document.querySelectorAll(selector);
+
+let currentLeads = [];
 
 
 function saveState() {
+
   localStorage.setItem(
     STORAGE.saved,
     JSON.stringify(state.saved)
@@ -56,140 +59,48 @@ function saveState() {
 }
 
 
-/* =========================
-   STATS
-========================= */
-
 function updateStats() {
 
-  $("#statFound").textContent = state.found;
+  $("#statFound").textContent =
+    state.found;
 
-  $("#statSaved").textContent = state.saved.length;
+  $("#statSaved").textContent =
+    state.saved.length;
 
-  $("#statSearches").textContent = state.searches;
-
+  $("#statSearches").textContent =
+    state.searches;
 }
 
 
 /* =========================
-   TOAST
-========================= */
-
-let toastTimer;
-
-
-function toast(message) {
-
-  const element = $("#toast");
-  const text = $("#toastText");
-
-  text.textContent = message;
-
-  element.classList.add("show");
-
-  clearTimeout(toastTimer);
-
-  toastTimer = setTimeout(() => {
-    element.classList.remove("show");
-  }, 2800);
-
-}
-
-
-/* =========================
-   NAVIGATION
-========================= */
-
-function openSection(sectionId) {
-
-  $$(".section").forEach(section => {
-    section.classList.remove("active-section");
-  });
-
-  $(`#${sectionId}`).classList.add("active-section");
-
-
-  $$(".nav-item").forEach(button => {
-    button.classList.toggle(
-      "active",
-      button.dataset.section === sectionId
-    );
-  });
-
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-
-
-  if (sectionId === "saved") {
-    renderSaved();
-  }
-
-  if (sectionId === "history") {
-    renderHistory();
-  }
-
-}
-
-
-$$(".nav-item").forEach(button => {
-
-  button.addEventListener("click", () => {
-
-    openSection(button.dataset.section);
-
-  });
-
-});
-
-
-$$("[data-go]").forEach(button => {
-
-  button.addEventListener("click", () => {
-
-    openSection(button.dataset.go);
-
-  });
-
-});
-
-
-/* =========================
-   COUNTRY DATA
+   COUNTRIES
 ========================= */
 
 const COUNTRY_DATA = {
 
   BR: {
     name: "Brasil",
-    flag: "🇧🇷",
-    language: "pt-BR"
+    flag: "🇧🇷"
   },
 
   PT: {
     name: "Portugal",
-    flag: "🇵🇹",
-    language: "pt-PT"
+    flag: "🇵🇹"
   },
 
   US: {
     name: "Estados Unidos",
-    flag: "🇺🇸",
-    language: "en"
+    flag: "🇺🇸"
   }
 
 };
 
 
 /* =========================
-   DEMO DATA
-   Futuramente substituir
-   pela API real.
+   DEMO LEADS
 ========================= */
 
-const demoNames = {
+const DEMO_NAMES = {
 
   BR: [
     "Barbearia Prime",
@@ -206,12 +117,7 @@ const demoNames = {
     "Clínica Mais",
     "Barbearia Gold",
     "Studio Urban",
-    "Clínica Bem Estar",
-    "Barbearia Classic",
-    "Studio Beauty",
-    "Clínica Nova",
-    "Barber Club",
-    "Espaço Bella"
+    "Clínica Bem Estar"
   ],
 
   PT: [
@@ -229,12 +135,7 @@ const demoNames = {
     "Clínica Vida",
     "Barbearia Gold",
     "Studio Urban",
-    "Clínica Bem Estar",
-    "Barbearia Classic",
-    "Studio Beauty",
-    "Clínica Nova",
-    "Barber Club",
-    "Espaço Bella"
+    "Clínica Bem Estar"
   ],
 
   US: [
@@ -252,115 +153,122 @@ const demoNames = {
     "Modern Clinic",
     "Gold Barber",
     "Urban Beauty",
-    "Health Center",
-    "Classic Studio",
-    "Beauty Lounge",
-    "New Life Clinic",
-    "Barber Club",
-    "Bella Studio"
+    "Health Center"
   ]
 
 };
 
 
 /* =========================
-   PHONE GENERATOR
+   CONTACT DATA
 ========================= */
 
-function generatePhone(country, index) {
-
-  /*
-    Alguns leads são simulados como WhatsApp,
-    outros como telefone fixo.
-
-    Quando a API real estiver conectada,
-    essa função será substituída pelos dados reais.
-  */
+function getContact(country, index) {
 
   if (country === "BR") {
 
-    const phones = [
+    const contacts = [
+
       {
         number: "+55 17 99612-3456",
         type: "whatsapp"
       },
+
       {
         number: "+55 17 3621-4587",
         type: "fixed"
       },
+
       {
         number: "+55 11 99876-2345",
         type: "whatsapp"
       },
+
       {
         number: "+55 17 3632-7788",
         type: "fixed"
       },
+
       {
         number: "+55 11 98765-4321",
         type: "whatsapp"
       }
+
     ];
 
-    return phones[index % phones.length];
+    return contacts[index % contacts.length];
   }
 
 
   if (country === "PT") {
 
-    const phones = [
+    const contacts = [
+
       {
         number: "+351 912 345 678",
         type: "whatsapp"
       },
+
       {
         number: "+351 211 234 567",
         type: "fixed"
       },
+
       {
         number: "+351 913 456 789",
         type: "whatsapp"
       },
+
       {
         number: "+351 218 765 432",
         type: "fixed"
       },
+
       {
         number: "+351 914 567 890",
         type: "whatsapp"
       }
+
     ];
 
-    return phones[index % phones.length];
+    return contacts[index % contacts.length];
   }
 
 
+  /* EUA */
+
   if (country === "US") {
 
-    const phones = [
+    const contacts = [
+
       {
         number: "+1 305 555 0142",
         type: "phone"
       },
+
       {
         number: "+1 305 555 0187",
         type: "phone"
       },
+
       {
         number: "+1 786 555 0134",
         type: "phone"
       },
+
       {
         number: "+1 407 555 0166",
         type: "phone"
       },
+
       {
         number: "+1 212 555 0198",
         type: "phone"
       }
+
     ];
 
-    return phones[index % phones.length];
+    return contacts[index % contacts.length];
   }
 
 
@@ -376,24 +284,20 @@ function generatePhone(country, index) {
    WEBSITE
 ========================= */
 
-function generateWebsite(name, index) {
-
-  /*
-    DEMO.
-
-    Na versão real:
-    - se a empresa tiver site -> URL real
-    - se não tiver -> null
-  */
+function getWebsite(name, index) {
 
   if (index % 4 === 3) {
     return null;
   }
 
-  return `https://www.${name
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "")
-    .slice(0, 24)}.com`;
+  return (
+    "https://www." +
+    name
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, "")
+      .slice(0, 22) +
+    ".com"
+  );
 
 }
 
@@ -405,25 +309,40 @@ function generateWebsite(name, index) {
 function createApproach(
   name,
   business,
-  city,
   country
 ) {
 
   if (country === "PT") {
 
-    return `Olá! Tudo bem? Encontrei a ${name} e gostei do vosso trabalho. Estou a entrar em contacto porque acredito que posso ajudar o vosso negócio a reforçar ainda mais a presença online e a captar novos clientes. Posso mostrar-vos uma ideia rápida, sem compromisso?`;
+    return `
+      Olá! Tudo bem? Encontrei a ${name} e gostei do vosso trabalho.
+      Estou a entrar em contacto porque acredito que posso ajudar o
+      vosso negócio a reforçar ainda mais a presença online e a captar
+      novos clientes. Posso mostrar-vos uma ideia rápida, sem compromisso?
+    `;
 
   }
 
 
   if (country === "US") {
 
-    return `Hi! How are you? I came across ${name} and really liked your business. I’m reaching out because I believe I could help you strengthen your online presence and attract more customers. Would you be open to seeing a quick idea with no commitment?`;
+    return `
+      Hi! How are you? I came across ${name} and really liked your business.
+      I’m reaching out because I believe I could help you strengthen your
+      online presence and attract more customers. Would you be open to
+      seeing a quick idea with no commitment?
+    `;
 
   }
 
 
-  return `Olá! Tudo bem? Encontrei a ${name} e gostei do trabalho de vocês. Estou entrando em contato porque acredito que posso ajudar a ${business.toLowerCase()} a fortalecer ainda mais sua presença online e atrair novos clientes. Posso te mostrar uma ideia rápida, sem compromisso?`;
+  return `
+    Olá! Tudo bem? Encontrei a ${name} e gostei do trabalho de vocês.
+    Estou entrando em contato porque acredito que posso ajudar a
+    ${business.toLowerCase()} a fortalecer ainda mais sua presença online
+    e atrair novos clientes. Posso te mostrar uma ideia rápida,
+    sem compromisso?
+  `;
 
 }
 
@@ -435,41 +354,63 @@ function createApproach(
 function createCallScript(
   name,
   business,
-  city,
   country
 ) {
 
   if (country === "PT") {
 
-    return `Bom dia, estou a falar com o responsável pela ${name}? O meu nome é João e estou a entrar em contacto porque encontrei o vosso negócio e achei interessante o trabalho que fazem. Trabalho com soluções de presença digital e acredito que posso ajudar a ${business.toLowerCase()} a conseguir mais contactos e clientes através da internet. Teriam alguns minutos para eu explicar-vos uma ideia rápida, sem qualquer compromisso?`;
+    return `
+      Bom dia, estou a falar com o responsável pela ${name}?
+      O meu nome é João e estou a entrar em contacto porque encontrei
+      o vosso negócio e gostei do trabalho que fazem.
+      Trabalho com soluções de presença digital e acredito que posso
+      ajudar a ${business.toLowerCase()} a conseguir mais contactos
+      e clientes através da internet.
+      Teriam alguns minutos para eu explicar-vos uma ideia rápida,
+      sem qualquer compromisso?
+    `;
 
   }
 
 
   if (country === "US") {
 
-    return `Hi, am I speaking with the person responsible for ${name}? My name is João. I came across your business and I really liked what you're doing. I help businesses improve their online presence and attract more customers. I have a quick idea that could be useful for your business. Would you have a minute for me to explain it?`;
+    return `
+      Hi, am I speaking with the person responsible for ${name}?
+      My name is João. I came across your business and really liked
+      what you're doing. I help businesses improve their online presence
+      and attract more customers. I have a quick idea that could be
+      useful for your business. Would you have a minute for me to
+      explain it?
+    `;
 
   }
 
 
-  return `Olá, estou falando com o responsável pela ${name}? Meu nome é João. Encontrei o negócio de vocês e gostei bastante do trabalho. Eu trabalho com soluções de presença digital e acredito que posso ajudar a ${business.toLowerCase()} a conseguir mais clientes através da internet. Tenho uma ideia rápida que pode ser interessante para vocês. Posso explicar em um minutinho?`;
+  return `
+    Olá, estou falando com o responsável pela ${name}?
+    Meu nome é João. Encontrei o negócio de vocês e gostei bastante
+    do trabalho. Eu trabalho com soluções de presença digital e acredito
+    que posso ajudar a ${business.toLowerCase()} a conseguir mais clientes
+    através da internet. Tenho uma ideia rápida que pode ser interessante
+    para vocês. Posso explicar em um minutinho?
+  `;
 
 }
 
 
 /* =========================
-   CONTACT LABEL
+   CONTACT BADGE
 ========================= */
 
-function getContactLabel(type) {
+function contactBadge(type) {
 
   if (type === "whatsapp") {
 
     return `
-      <span class="contact-type contact-whatsapp">
-        🟢 WHATSAPP
-      </span>
+      <div class="contact-type contact-whatsapp">
+        🟢 WHATSAPP DISPONÍVEL
+      </div>
     `;
 
   }
@@ -478,9 +419,21 @@ function getContactLabel(type) {
   if (type === "fixed") {
 
     return `
-      <span class="contact-type contact-fixed">
-        📞 FIXO — LIGAR
-      </span>
+      <div class="contact-type contact-fixed">
+        📞 NÚMERO FIXO — LIGAR
+      </div>
+
+      <div class="fixed-warning">
+
+        <strong>
+          ⚠️ ATENÇÃO
+        </strong>
+
+        Este número não possui WhatsApp.
+        É um telefone fixo.
+        <b>Ligue para o estabelecimento.</b>
+
+      </div>
     `;
 
   }
@@ -489,9 +442,20 @@ function getContactLabel(type) {
   if (type === "phone") {
 
     return `
-      <span class="contact-type contact-phone">
-        📞 TELEFONE
-      </span>
+      <div class="contact-type contact-phone">
+        ☎️ TELEFONE — LIGAR
+      </div>
+
+      <div class="fixed-warning">
+
+        <strong>
+          📞 CONTATO POR LIGAÇÃO
+        </strong>
+
+        Este contacto está disponível por telefone.
+        <b>Ligue para o estabelecimento.</b>
+
+      </div>
     `;
 
   }
@@ -503,37 +467,42 @@ function getContactLabel(type) {
 
 
 /* =========================
-   CREATE DEMO LEADS
+   CREATE LEADS
 ========================= */
 
-function createDemoLeads(
+function createLeads(
   country,
   business,
   city,
   quantity
 ) {
 
-  const names = demoNames[country];
-
   const leads = [];
 
+  const names =
+    DEMO_NAMES[country];
 
-  for (let i = 0; i < quantity; i++) {
 
-    const name = names[i % names.length];
+  for (
+    let i = 0;
+    i < quantity;
+    i++
+  ) {
 
-    const phone = generatePhone(
-      country,
-      i
-    );
+    const name =
+      names[i % names.length];
 
-    const website = generateWebsite(
-      name,
-      i
-    );
+    const contact =
+      getContact(
+        country,
+        i
+      );
 
-    const score =
-      96 - ((i * 3) % 15);
+    const website =
+      getWebsite(
+        name,
+        i
+      );
 
 
     leads.push({
@@ -552,21 +521,24 @@ function createDemoLeads(
       countryName:
         COUNTRY_DATA[country].name,
 
+      flag:
+        COUNTRY_DATA[country].flag,
+
       website,
 
       phone:
-        phone.number,
+        contact.number,
 
       contactType:
-        phone.type,
+        contact.type,
 
-      score,
+      score:
+        96 - ((i * 3) % 15),
 
       approach:
         createApproach(
           name,
           business,
-          city,
           country
         ),
 
@@ -574,7 +546,6 @@ function createDemoLeads(
         createCallScript(
           name,
           business,
-          city,
           country
         ),
 
@@ -587,34 +558,29 @@ function createDemoLeads(
 
 
   return leads;
-
 }
 
 
 /* =========================
-   WHATSAPP LINK
+   LINKS
 ========================= */
 
 function whatsappLink(phone) {
 
-  const digits =
-    phone.replace(/\D/g, "");
-
-  return `https://wa.me/${digits}`;
+  return (
+    "https://wa.me/" +
+    phone.replace(/\D/g, "")
+  );
 
 }
 
 
-/* =========================
-   PHONE LINK
-========================= */
-
 function phoneLink(phone) {
 
-  return `tel:${phone.replace(
-    /[^+\d]/g,
-    ""
-  )}`;
+  return (
+    "tel:" +
+    phone.replace(/[^\d+]/g, "")
+  );
 
 }
 
@@ -625,16 +591,22 @@ function phoneLink(phone) {
 
 async function copyText(text) {
 
+  const cleanText =
+    text.replace(/\s+/g, " ").trim();
+
+
   try {
 
-    await navigator.clipboard.writeText(text);
+    await navigator.clipboard.writeText(
+      cleanText
+    );
 
-    toast("Texto copiado!");
+    toast("Copiado!");
 
   } catch {
 
     toast(
-      "Não foi possível copiar automaticamente."
+      "Não foi possível copiar."
     );
 
   }
@@ -648,95 +620,81 @@ async function copyText(text) {
 
 function leadCard(lead) {
 
-  const websiteHTML = lead.website
-
-    ? `
-      <a
-        href="${lead.website}"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        🌐 Abrir site
-      </a>
-    `
-
-    : `
-      <strong>
-        🚫 site off
-      </strong>
-    `;
+  const saved =
+    state.saved.some(
+      item => item.id === lead.id
+    );
 
 
-  const phoneHTML = lead.phone
+  const websiteHTML =
+    lead.website
 
-    ? `
-      <a
-        href="${phoneLink(lead.phone)}"
-      >
-        ${lead.phone}
-      </a>
-    `
+      ? `
+        <a
+          href="${lead.website}"
+          target="_blank"
+          rel="noopener"
+        >
+          🌐 Abrir site
+        </a>
+      `
 
-    : `
-      <strong>
-        Não encontrado
-      </strong>
-    `;
+      : `
+        <strong>
+          🚫 site off
+        </strong>
+      `;
 
 
-  const isFixed =
+  const fixed =
     lead.contactType === "fixed";
 
-
-  const callBox = isFixed
-
-    ? `
-      <div class="call-box">
-
-        <span class="approach-label">
-          📞 O QUE FALAR NA LIGAÇÃO
-        </span>
-
-        <div class="call-text">
-          ${lead.callScript}
-        </div>
-
-      </div>
-    `
-
-    : "";
+  const phone =
+    lead.phone;
 
 
-  const whatsappButton =
+  const contactButton =
     lead.contactType === "whatsapp"
 
       ? `
         <a
           class="lead-button primary"
-          href="${whatsappLink(lead.phone)}"
+          href="${whatsappLink(phone)}"
           target="_blank"
-          rel="noopener noreferrer"
+          rel="noopener"
         >
-          💬 WhatsApp
+          💬 Abrir WhatsApp
         </a>
       `
 
       : `
-
         <a
           class="lead-button call"
-          href="${phoneLink(lead.phone)}"
+          href="${phoneLink(phone)}"
         >
-          📞 Ligar
+          📞 LIGAR AGORA
         </a>
-
       `;
 
 
-  const saved =
-    state.saved.some(
-      item => item.id === lead.id
-    );
+  const callBox =
+    fixed || lead.contactType === "phone"
+
+      ? `
+        <div class="call-box">
+
+          <span class="approach-label">
+            📞 O QUE FALAR NA LIGAÇÃO
+          </span>
+
+          <div class="call-text">
+            ${lead.callScript}
+          </div>
+
+        </div>
+      `
+
+      : "";
 
 
   return `
@@ -752,7 +710,7 @@ function leadCard(lead) {
           </div>
 
           <div class="lead-location">
-            ${COUNTRY_DATA[lead.country].flag}
+            ${lead.flag}
             ${lead.city} •
             ${lead.countryName}
           </div>
@@ -769,23 +727,26 @@ function leadCard(lead) {
       <div class="lead-info">
 
         <div class="info-row">
-          <span>🏢</span>
+          🏢
           <strong>
             ${lead.business}
           </strong>
         </div>
 
         <div class="info-row">
-          <span>🌐</span>
+          🌐
           ${websiteHTML}
         </div>
 
         <div class="info-row">
-          <span>📱</span>
-          ${phoneHTML}
+          📱
+          <a href="${phoneLink(phone)}">
+            ${phone}
+          </a>
         </div>
 
-        ${getContactLabel(
+
+        ${contactBadge(
           lead.contactType
         )}
 
@@ -810,48 +771,51 @@ function leadCard(lead) {
 
       <div class="lead-actions">
 
-        ${whatsappButton}
+        ${contactButton}
+
 
         <button
           class="lead-button"
-          onclick="copyText(
-            ${JSON.stringify(lead.approach)}
-          )"
+          onclick='copyText(${JSON.stringify(
+            lead.approach
+          )})'
         >
           📋 Copiar abordagem
         </button>
 
+
         ${
-          isFixed
+          fixed || lead.contactType === "phone"
+
             ? `
               <button
                 class="lead-button call"
-                onclick="copyText(
-                  ${JSON.stringify(lead.callScript)}
-                )"
+                onclick='copyText(${JSON.stringify(
+                  lead.callScript
+                )})'
               >
                 📞 Copiar roteiro
               </button>
             `
+
             : `
               <button
                 class="lead-button"
-                onclick="copyText(
-                  ${JSON.stringify(lead.phone)}
-                )"
+                onclick='copyText(${JSON.stringify(
+                  lead.phone
+                )})'
               >
                 📱 Copiar número
               </button>
             `
         }
 
+
         <button
           class="lead-button ${
             saved ? "primary" : ""
           }"
-          onclick="toggleSave(
-            ${JSON.stringify(lead.id)}
-          )"
+          onclick="toggleSave('${lead.id}')"
         >
           ${saved ? "★ Salvo" : "☆ Salvar lead"}
         </button>
@@ -866,26 +830,24 @@ function leadCard(lead) {
 
 
 /* =========================
-   RENDER RESULTS
+   RENDER
 ========================= */
-
-let currentLeads = [];
-
 
 function renderLeads() {
 
-  const container = $("#results");
+  const container =
+    $("#results");
 
-  $("#resultsCount").textContent =
+
+  $("#resultsCount")
+    .textContent =
     `${currentLeads.length} leads`;
 
 
   if (!currentLeads.length) {
 
     container.innerHTML = `
-
       <div class="empty-state">
-
         <div>🔎</div>
 
         <h3>
@@ -895,9 +857,7 @@ function renderLeads() {
         <p>
           Tente outra cidade ou segmento.
         </p>
-
       </div>
-
     `;
 
     return;
@@ -913,25 +873,27 @@ function renderLeads() {
 
 
 /* =========================
-   SAVE LEAD
+   SAVE
 ========================= */
 
 function toggleSave(id) {
 
-  const existing =
+  const exists =
     state.saved.find(
       lead => lead.id === id
     );
 
 
-  if (existing) {
+  if (exists) {
 
     state.saved =
       state.saved.filter(
         lead => lead.id !== id
       );
 
-    toast("Lead removido dos salvos.");
+    toast(
+      "Lead removido dos salvos."
+    );
 
   } else {
 
@@ -946,7 +908,9 @@ function toggleSave(id) {
 
     state.saved.push(lead);
 
-    toast("Lead salvo no seu CRM.");
+    toast(
+      "Lead salvo!"
+    );
 
   }
 
@@ -961,7 +925,7 @@ function toggleSave(id) {
 
 
 /* =========================
-   RENDER SAVED
+   SAVED
 ========================= */
 
 function renderSaved() {
@@ -973,7 +937,6 @@ function renderSaved() {
   if (!state.saved.length) {
 
     container.innerHTML = `
-
       <div class="empty-state">
 
         <div>★</div>
@@ -983,12 +946,10 @@ function renderSaved() {
         </h3>
 
         <p>
-          Salve os leads interessantes
-          durante suas pesquisas.
+          Salve os melhores leads durante suas pesquisas.
         </p>
 
       </div>
-
     `;
 
     return;
@@ -1016,7 +977,6 @@ function renderHistory() {
   if (!state.history.length) {
 
     container.innerHTML = `
-
       <div class="empty-state">
 
         <div>◷</div>
@@ -1030,7 +990,6 @@ function renderHistory() {
         </p>
 
       </div>
-
     `;
 
     return;
@@ -1056,7 +1015,6 @@ function renderHistory() {
 
 
         return `
-
           <div class="history-item">
 
             <div class="history-main">
@@ -1068,8 +1026,8 @@ function renderHistory() {
 
               <p>
                 ${item.city} •
-                ${COUNTRY_DATA[item.country].name}
-                • ${item.quantity} leads
+                ${COUNTRY_DATA[item.country].name} •
+                ${item.quantity} leads
               </p>
 
             </div>
@@ -1079,7 +1037,6 @@ function renderHistory() {
             </div>
 
           </div>
-
         `;
 
       })
@@ -1104,7 +1061,9 @@ async function searchLeads() {
     $("#city").value.trim();
 
   const quantity =
-    Number($("#quantity").value);
+    Number(
+      $("#quantity").value
+    );
 
 
   if (!business) {
@@ -1116,7 +1075,6 @@ async function searchLeads() {
     $("#business").focus();
 
     return;
-
   }
 
 
@@ -1129,7 +1087,6 @@ async function searchLeads() {
     $("#city").focus();
 
     return;
-
   }
 
 
@@ -1156,11 +1113,13 @@ async function searchLeads() {
 
     "Analisando presença online...",
 
-    "Verificando sites e contactos...",
+    "Verificando sites...",
 
-    "Separando WhatsApp e telefones...",
+    "Separando WhatsApp e telefones fixos...",
 
-    "Preparando suas oportunidades..."
+    "Preparando as abordagens...",
+
+    "Preparando os roteiros de ligação..."
 
   ];
 
@@ -1168,7 +1127,7 @@ async function searchLeads() {
   let messageIndex = 0;
 
 
-  const loadingInterval =
+  const interval =
     setInterval(() => {
 
       messageIndex =
@@ -1179,24 +1138,27 @@ async function searchLeads() {
         .textContent =
         messages[messageIndex];
 
-    }, 1200);
+    }, 1000);
 
 
   try {
 
     /*
-      SIMULAÇÃO.
+      ATUALMENTE É DEMONSTRAÇÃO.
 
-      Quando conectarmos o backend real,
-      este trecho será substituído por:
+      Aqui será conectado o backend real.
+
+      Exemplo:
 
       const response = await fetch(
         "https://SEU-BACKEND/api/leads",
         {
           method: "POST",
+
           headers: {
             "Content-Type": "application/json"
           },
+
           body: JSON.stringify({
             country,
             business,
@@ -1206,7 +1168,8 @@ async function searchLeads() {
         }
       );
 
-      const leads = await response.json();
+      currentLeads =
+        await response.json();
     */
 
 
@@ -1217,7 +1180,7 @@ async function searchLeads() {
 
 
     currentLeads =
-      createDemoLeads(
+      createLeads(
         country,
         business,
         city,
@@ -1228,7 +1191,7 @@ async function searchLeads() {
     state.found +=
       currentLeads.length;
 
-    state.searches += 1;
+    state.searches++;
 
 
     state.history.push({
@@ -1247,11 +1210,6 @@ async function searchLeads() {
     });
 
 
-    /*
-      Mantém somente as últimas
-      30 pesquisas.
-    */
-
     state.history =
       state.history.slice(-30);
 
@@ -1264,23 +1222,20 @@ async function searchLeads() {
 
 
     toast(
-      `${currentLeads.length} leads encontrados!`
+      `🚀 ${currentLeads.length} leads encontrados!`
     );
-
 
   } catch (error) {
 
     console.error(error);
 
     toast(
-      "Ocorreu um erro na pesquisa."
+      "Erro ao procurar leads."
     );
 
   } finally {
 
-    clearInterval(
-      loadingInterval
-    );
+    clearInterval(interval);
 
     loading.classList.add(
       "hidden"
@@ -1297,7 +1252,86 @@ async function searchLeads() {
 
 
 /* =========================
-   SEARCH BUTTON
+   NAVIGATION
+========================= */
+
+function openSection(id) {
+
+  $$(".section").forEach(
+    section =>
+      section.classList.remove(
+        "active-section"
+      )
+  );
+
+
+  $(`#${id}`)
+    .classList.add(
+      "active-section"
+    );
+
+
+  $$(".nav-item").forEach(
+    button => {
+
+      button.classList.toggle(
+        "active",
+        button.dataset.section === id
+      );
+
+    }
+  );
+
+
+  if (id === "saved") {
+    renderSaved();
+  }
+
+  if (id === "history") {
+    renderHistory();
+  }
+
+}
+
+
+$$(".nav-item").forEach(
+  button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        openSection(
+          button.dataset.section
+        );
+
+      }
+    );
+
+  }
+);
+
+
+$$("[data-go]").forEach(
+  button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        openSection(
+          button.dataset.go
+        );
+
+      }
+    );
+
+  }
+);
+
+
+/* =========================
+   EVENTS
 ========================= */
 
 $("#searchBtn")
@@ -1306,10 +1340,6 @@ $("#searchBtn")
     searchLeads
   );
 
-
-/* =========================
-   ENTER TO SEARCH
-========================= */
 
 $("#business")
   .addEventListener(
@@ -1343,12 +1373,9 @@ $("#city")
 
 function updateClock() {
 
-  const now =
-    new Date();
-
   $("#clock")
     .textContent =
-    now.toLocaleTimeString(
+    new Date().toLocaleTimeString(
       "pt-BR",
       {
         hour: "2-digit",
@@ -1357,7 +1384,6 @@ function updateClock() {
     );
 
 }
-
 
 setInterval(
   updateClock,
@@ -1377,7 +1403,7 @@ $("#themeBtn")
     () => {
 
       toast(
-        "O modo escuro já está otimizado para prospecção."
+        "O modo escuro está otimizado para prospecção."
       );
 
     }
