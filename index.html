@@ -1,301 +1,410 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LEADXTERIOR</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LEADXTERIOR — Lead Intelligence</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- INTRO -->
-    <div id="introScreen" class="intro-screen">
-        <div class="intro-content">
-            <div class="intro-logo">LEADXTERIOR</div>
-            <div class="intro-line"></div>
-            <p id="introPhrase">Enquanto muitos estão pensando, você está construindo.</p>
+  <!-- INTRO -->
+  <div id="introScreen" class="intro-screen">
+    <div class="intro-content">
+      <div class="intro-logo">LEADXTERIOR</div>
+      <div class="intro-line"></div>
+      <p id="introPhrase">Enquanto muitos estão pensando, você está construindo.</p>
+    </div>
+  </div>
+
+  <!-- APP -->
+  <div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon">L</div>
+        <div>
+          <strong>LEADXTERIOR</strong>
+          <span>LEAD INTELLIGENCE</span>
         </div>
-    </div>
+      </div>
 
-    <div class="app">
+      <nav>
+        <button class="nav-item active" data-section="dashboard">
+          <span>⌂</span> Dashboard
+        </button>
 
-        <!-- SIDEBAR -->
-        <aside class="sidebar">
+        <button class="nav-item" data-section="search">
+          <span>⌕</span> Encontrar Leads
+        </button>
 
-            <div class="brand">
-                <div class="brand-icon">L</div>
-                <div>
-                    <strong>LEADXTERIOR</strong>
-                    <span>LEAD GENERATOR</span>
-                </div>
+        <button class="nav-item" data-section="crm">
+          <span>▣</span> CRM
+        </button>
+
+        <button class="nav-item" data-section="saved">
+          <span>★</span> Meus Leads
+        </button>
+
+        <button class="nav-item" data-section="history">
+          <span>◷</span> Histórico
+        </button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="private-box">
+          <div class="online-dot"></div>
+          <div>
+            <strong>Sistema privado</strong>
+            <small>Somente você</small>
+          </div>
+        </div>
+
+        <div class="version">LEADXTERIOR V2.0</div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div>
+          <div class="page-title" id="pageTitle">Dashboard</div>
+          <div class="page-subtitle">Seu centro de prospecção.</div>
+        </div>
+
+        <div class="top-user">
+          <div class="system-status">
+            <span></span>
+            ONLINE
+          </div>
+
+          <div class="user-avatar">J</div>
+
+          <div class="user-info">
+            <strong>Sr. João</strong>
+            <small>Administrador</small>
+          </div>
+        </div>
+      </header>
+
+      <!-- DASHBOARD -->
+      <section id="dashboard" class="section active-section">
+
+        <div class="hero-card">
+          <div class="hero-content">
+            <div class="eyebrow">LEADXTERIOR INTELLIGENCE</div>
+            <h1>Olá, Sr. João 👋</h1>
+            <p>
+              Encontre oportunidades, organize seus contatos
+              e transforme leads em clientes.
+            </p>
+
+            <button class="primary-btn" data-go="search">
+              <span>+</span> Encontrar novos leads
+            </button>
+          </div>
+
+          <div class="hero-decoration">
+            <div class="orb orb-one"></div>
+            <div class="orb orb-two"></div>
+            <div class="hero-grid"></div>
+          </div>
+        </div>
+
+        <div class="motivation-card">
+          <div class="motivation-icon">⚡</div>
+          <div>
+            <span>FOCO DO DIA</span>
+            <h3 id="dashboardPhrase">
+              Você é um futuro milionário? Então bora trabalhar.
+            </h3>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon purple">⌕</div>
+            <div>
+              <small>LEADS ENCONTRADOS</small>
+              <strong id="statLeads">0</strong>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon green">🎯</div>
+            <div>
+              <small>ALTA OPORTUNIDADE</small>
+              <strong id="statHot">0</strong>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon orange">☏</div>
+            <div>
+              <small>CONTATADOS</small>
+              <strong id="statContacted">0</strong>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon blue">✓</div>
+            <div>
+              <small>FECHADOS</small>
+              <strong id="statClosed">0</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-heading">
+          <div>
+            <h2>Comece sua prospecção</h2>
+            <p>Escolha um mercado e encontre novas oportunidades.</p>
+          </div>
+        </div>
+
+        <div class="quick-grid">
+          <button class="quick-card" data-search="Barbearia">
+            <span>💈</span>
+            <strong>Barbearias</strong>
+            <small>Encontre barbearias</small>
+          </button>
+
+          <button class="quick-card" data-search="Clínica">
+            <span>🏥</span>
+            <strong>Clínicas</strong>
+            <small>Encontre clínicas</small>
+          </button>
+
+          <button class="quick-card" data-search="Restaurante">
+            <span>🍔</span>
+            <strong>Restaurantes</strong>
+            <small>Encontre restaurantes</small>
+          </button>
+
+          <button class="quick-card" data-search="Salão">
+            <span>💇</span>
+            <strong>Salões</strong>
+            <small>Encontre salões</small>
+          </button>
+        </div>
+
+      </section>
+
+      <!-- SEARCH -->
+      <section id="search" class="section">
+
+        <div class="section-heading big-heading">
+          <div>
+            <div class="eyebrow">PROSPECÇÃO</div>
+            <h2>Encontrar Leads</h2>
+            <p>Configure sua pesquisa e encontre oportunidades.</p>
+          </div>
+        </div>
+
+        <div class="search-panel">
+
+          <div class="field">
+            <label>PAÍS</label>
+            <select id="country">
+              <option value="BR">🇧🇷 Brasil</option>
+              <option value="PT">🇵🇹 Portugal</option>
+              <option value="US">🇺🇸 Estados Unidos</option>
+            </select>
+          </div>
+
+          <div class="field autocomplete-field">
+            <label>NEGÓCIO</label>
+            <input
+              id="business"
+              type="text"
+              autocomplete="off"
+              placeholder="Ex.: barbeiro, clínica..."
+            >
+            <div id="businessSuggestions" class="suggestions"></div>
+          </div>
+
+          <div class="field autocomplete-field">
+            <label>CIDADE</label>
+            <input
+              id="city"
+              type="text"
+              autocomplete="off"
+              placeholder="Ex.: Jales"
+            >
+            <div id="citySuggestions" class="suggestions"></div>
+          </div>
+
+          <div class="field">
+            <label>QUANTIDADE</label>
+            <select id="quantity">
+              <option value="15">15 leads</option>
+              <option value="10">10 leads</option>
+              <option value="20">20 leads</option>
+              <option value="30">30 leads</option>
+            </select>
+          </div>
+
+          <button id="searchBtn" class="search-btn">
+            <span>⌕</span>
+            PROCURAR LEAD!
+          </button>
+
+        </div>
+
+        <div class="search-note">
+          <span>⚡</span>
+          <p>
+            <strong>Modo demonstração:</strong>
+            os resultados abaixo são dados simulados para visualizar o sistema.
+          </p>
+        </div>
+
+        <!-- LOADING -->
+        <div id="loading" class="loading-box hidden">
+          <div class="loader"></div>
+          <h3>Procurando oportunidades...</h3>
+          <p>Analisando empresas e preparando seus leads.</p>
+
+          <div class="loading-progress">
+            <div></div>
+          </div>
+        </div>
+
+        <!-- RESULTS -->
+        <div id="results" class="results hidden">
+
+          <div class="results-header">
+            <div>
+              <div class="eyebrow">RESULTADOS</div>
+              <h2>Leads encontrados</h2>
+              <p id="resultDescription"></p>
             </div>
 
-            <nav>
-                <button class="nav-item active" data-section="dashboard">
-                    <span>⌂</span>
-                    Dashboard
-                </button>
+            <div class="result-count" id="resultCount">0 leads</div>
+          </div>
 
-                <button class="nav-item" data-section="leads">
-                    <span>⌕</span>
-                    Encontrar Leads
-                </button>
+          <div id="leadList" class="lead-list"></div>
+        </div>
 
-                <button class="nav-item" data-section="saved">
-                    <span>★</span>
-                    Meus Leads
-                </button>
+      </section>
 
-                <button class="nav-item" data-section="history">
-                    <span>◷</span>
-                    Histórico
-                </button>
-            </nav>
+      <!-- CRM -->
+      <section id="crm" class="section">
 
-            <div class="sidebar-bottom">
-                <div class="private-box">
-                    <span>🔒</span>
-                    <div>
-                        <strong>Área privada</strong>
-                        <small>Seu painel pessoal</small>
-                    </div>
-                </div>
+        <div class="section-heading big-heading">
+          <div>
+            <div class="eyebrow">ORGANIZAÇÃO</div>
+            <h2>CRM de Leads</h2>
+            <p>Acompanhe cada oportunidade até o fechamento.</p>
+          </div>
+        </div>
+
+        <div class="pipeline">
+
+          <div class="pipeline-column">
+            <div class="pipeline-title">
+              <span>NOVO</span>
+              <b id="count-new">0</b>
             </div>
-
-        </aside>
-
-        <!-- MAIN -->
-        <main class="main">
-
-            <!-- TOP -->
-            <header class="topbar">
-                <div>
-                    <span class="small-title">PAINEL DE PROSPECÇÃO</span>
-                    <h1>Olá, Sr. João 👋</h1>
-                </div>
-
-                <div class="status">
-                    <span class="status-dot"></span>
-                    SISTEMA ONLINE
-                </div>
-            </header>
-
-
-            <!-- DASHBOARD -->
-            <section id="dashboard" class="section active-section">
-
-                <div class="motivation-box">
-                    <div class="motivation-icon">🚀</div>
-
-                    <div>
-                        <span class="motivation-label">MODO TRABALHO</span>
-                        <h2 id="motivationPhrase">
-                            Você quer ser um futuro milionário?
-                        </h2>
-
-                        <p>
-                            Então entre no trabalho. Seu próximo cliente pode estar aqui.
-                        </p>
-                    </div>
-                </div>
-
-
-                <div class="welcome-card">
-                    <div>
-                        <span class="small-title">LEADXTERIOR</span>
-                        <h2>Encontre seu próximo cliente.</h2>
-
-                        <p>
-                            Pesquise empresas, encontre contatos e comece sua prospecção.
-                        </p>
-
-                        <button class="primary-button" id="startSearch">
-                            PROCURAR LEADS →
-                        </button>
-                    </div>
-
-                    <div class="welcome-symbol">
-                        🔎
-                    </div>
-                </div>
-
-
-                <div class="stats-grid">
-
-                    <div class="stat-card">
-                        <span>LEADS ENCONTRADOS</span>
-                        <strong id="totalLeads">0</strong>
-                    </div>
-
-                    <div class="stat-card">
-                        <span>LEADS SALVOS</span>
-                        <strong id="savedLeads">0</strong>
-                    </div>
-
-                    <div class="stat-card">
-                        <span>PESQUISAS</span>
-                        <strong id="totalSearches">0</strong>
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- SEARCH -->
-            <section id="leads" class="section">
-
-                <div class="section-header">
-                    <div>
-                        <span class="small-title">PROSPECÇÃO</span>
-                        <h2>Encontrar Leads</h2>
-                        <p>Escolha o mercado e encontre novas oportunidades.</p>
-                    </div>
-                </div>
-
-
-                <div class="search-card">
-
-                    <div class="field">
-                        <label>PAÍS</label>
-
-                        <select id="country">
-                            <option value="BR">🇧🇷 Brasil</option>
-                            <option value="PT">🇵🇹 Portugal</option>
-                            <option value="US">🇺🇸 Estados Unidos</option>
-                        </select>
-                    </div>
-
-
-                    <div class="field autocomplete-field">
-
-                        <label>NEGÓCIO / EMPRESA</label>
-
-                        <input
-                            type="text"
-                            id="business"
-                            autocomplete="off"
-                            placeholder="Ex: barbeiro, clínica, salão..."
-                        >
-
-                        <div
-                            id="businessSuggestions"
-                            class="suggestions">
-                        </div>
-
-                    </div>
-
-
-                    <div class="field autocomplete-field">
-
-                        <label>CIDADE</label>
-
-                        <input
-                            type="text"
-                            id="city"
-                            autocomplete="off"
-                            placeholder="Digite uma cidade..."
-                        >
-
-                        <div
-                            id="citySuggestions"
-                            class="suggestions">
-                        </div>
-
-                    </div>
-
-
-                    <div class="field quantity-field">
-
-                        <label>QUANTIDADE</label>
-
-                        <select id="quantity">
-                            <option value="15">15 leads</option>
-                            <option value="10">10 leads</option>
-                            <option value="20">20 leads</option>
-                            <option value="30">30 leads</option>
-                        </select>
-
-                    </div>
-
-
-                    <button
-                        id="searchButton"
-                        class="search-button">
-
-                        PROCURAR LEAD!
-
-                    </button>
-
-                </div>
-
-
-                <div id="loading" class="loading hidden">
-
-                    <div class="loader"></div>
-
-                    <div>
-                        <strong>Procurando leads...</strong>
-                        <p>
-                            Analisando empresas e oportunidades.
-                        </p>
-                    </div>
-
-                </div>
-
-
-                <div id="resultsHeader" class="results-header hidden">
-                    <div>
-                        <span class="small-title">RESULTADOS</span>
-                        <h2>Leads encontrados</h2>
-                    </div>
-
-                    <span id="resultCount"></span>
-                </div>
-
-
-                <div id="results" class="results-grid"></div>
-
-            </section>
-
-
-            <!-- SAVED -->
-            <section id="saved" class="section">
-
-                <div class="section-header">
-                    <div>
-                        <span class="small-title">ARQUIVO</span>
-                        <h2>Meus Leads</h2>
-                        <p>Leads que você salvou para trabalhar depois.</p>
-                    </div>
-                </div>
-
-                <div id="savedResults" class="results-grid"></div>
-
-            </section>
-
-
-            <!-- HISTORY -->
-            <section id="history" class="section">
-
-                <div class="section-header">
-                    <div>
-                        <span class="small-title">ATIVIDADE</span>
-                        <h2>Histórico</h2>
-                        <p>Suas últimas pesquisas.</p>
-                    </div>
-                </div>
-
-                <div id="historyResults" class="history-list"></div>
-
-            </section>
-
-        </main>
-
+            <div id="pipeline-new" class="pipeline-list"></div>
+          </div>
+
+          <div class="pipeline-column">
+            <div class="pipeline-title">
+              <span>CONTATADO</span>
+              <b id="count-contacted">0</b>
+            </div>
+            <div id="pipeline-contacted" class="pipeline-list"></div>
+          </div>
+
+          <div class="pipeline-column">
+            <div class="pipeline-title">
+              <span>RESPONDEU</span>
+              <b id="count-replied">0</b>
+            </div>
+            <div id="pipeline-replied" class="pipeline-list"></div>
+          </div>
+
+          <div class="pipeline-column">
+            <div class="pipeline-title">
+              <span>NEGOCIANDO</span>
+              <b id="count-negotiating">0</b>
+            </div>
+            <div id="pipeline-negotiating" class="pipeline-list"></div>
+          </div>
+
+          <div class="pipeline-column">
+            <div class="pipeline-title">
+              <span>FECHOU</span>
+              <b id="count-closed">0</b>
+            </div>
+            <div id="pipeline-closed" class="pipeline-list"></div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SAVED -->
+      <section id="saved" class="section">
+
+        <div class="section-heading big-heading">
+          <div>
+            <div class="eyebrow">SEUS LEADS</div>
+            <h2>Meus Leads</h2>
+            <p>Suas oportunidades favoritas.</p>
+          </div>
+        </div>
+
+        <div id="savedList" class="lead-list"></div>
+
+        <div id="emptySaved" class="empty-state">
+          <div>★</div>
+          <h3>Nenhum lead salvo</h3>
+          <p>Salve leads importantes durante suas pesquisas.</p>
+        </div>
+
+      </section>
+
+      <!-- HISTORY -->
+      <section id="history" class="section">
+
+        <div class="section-heading big-heading">
+          <div>
+            <div class="eyebrow">HISTÓRICO</div>
+            <h2>Pesquisas anteriores</h2>
+            <p>Veja o que você pesquisou anteriormente.</p>
+          </div>
+
+          <button id="clearHistory" class="danger-btn">
+            Limpar histórico
+          </button>
+        </div>
+
+        <div id="historyList" class="history-list"></div>
+
+        <div id="emptyHistory" class="empty-state">
+          <div>◷</div>
+          <h3>Nenhuma pesquisa ainda</h3>
+          <p>Suas pesquisas aparecerão aqui.</p>
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+  <!-- MODAL -->
+  <div id="modalOverlay" class="modal-overlay hidden">
+    <div class="modal">
+      <button id="closeModal" class="modal-close">×</button>
+      <div id="modalContent"></div>
     </div>
+  </div>
 
-    <script src="script.js"></script>
-
+  <script src="script.js"></script>
 </body>
 </html>
