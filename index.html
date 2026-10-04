@@ -1,492 +1,468 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>LEADXTERIOR • Painel Privado</title>
+  <title>LEADXTERIOR • Private CRM</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta
+    name="description"
+    content="LEADXTERIOR — painel privado para prospecção de leads."
+  />
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
 
-  <div class="background-glow glow-one"></div>
-  <div class="background-glow glow-two"></div>
+  <div class="background-glow glow-1"></div>
+  <div class="background-glow glow-2"></div>
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
+  <div class="app">
 
-    <div class="brand">
-      <div class="brand-logo">L</div>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
 
-      <div>
-        <strong>LEADXTERIOR</strong>
-        <span>PRIVATE CRM</span>
-      </div>
-    </div>
-
-    <nav>
-
-      <button class="nav-item active" data-page="dashboard">
-        <span>⌂</span>
-        Dashboard
-      </button>
-
-      <button class="nav-item" data-page="search">
-        <span>⌕</span>
-        Encontrar Leads
-      </button>
-
-      <button class="nav-item" data-page="saved">
-        <span>☆</span>
-        Meus Leads
-      </button>
-
-      <button class="nav-item" data-page="history">
-        <span>◷</span>
-        Histórico
-      </button>
-
-    </nav>
-
-    <div class="private-status">
-      <span></span>
-      Modo privado ativo
-    </div>
-
-  </aside>
-
-
-  <!-- CONTEÚDO -->
-  <main class="main">
-
-    <header class="topbar">
-
-      <div class="mobile-brand">
-        LEADXTERIOR
-      </div>
-
-      <div class="top-actions">
-
-        <span id="clock"></span>
-
-        <button id="themeButton" class="icon-button">
-          ☼
-        </button>
-
-      </div>
-
-    </header>
-
-
-    <!-- DASHBOARD -->
-
-    <section id="dashboard" class="page active">
-
-      <div class="hero">
+      <div class="brand">
+        <div class="brand-icon">L</div>
 
         <div>
+          <strong>LEADXTERIOR</strong>
+          <span>PRIVATE CRM</span>
+        </div>
+      </div>
 
-          <p class="eyebrow">
+      <nav class="navigation">
+
+        <button class="nav-item active" data-section="dashboard">
+          <span>⌂</span>
+          Dashboard
+        </button>
+
+        <button class="nav-item" data-section="search">
+          <span>⌕</span>
+          Encontrar Leads
+        </button>
+
+        <button class="nav-item" data-section="saved">
+          <span>★</span>
+          Meus Leads
+        </button>
+
+        <button class="nav-item" data-section="history">
+          <span>◷</span>
+          Histórico
+        </button>
+
+      </nav>
+
+      <div class="private-status">
+        <div class="status-dot"></div>
+
+        <div>
+          <strong>Modo privado</strong>
+          <span>Sistema ativo</span>
+        </div>
+      </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+
+        <div class="mobile-brand">
+          LEADXTERIOR
+        </div>
+
+        <div class="topbar-right">
+
+          <div id="clock" class="clock">
+            --:--
+          </div>
+
+          <button id="themeBtn" class="icon-button" title="Tema">
+            ◐
+          </button>
+
+        </div>
+
+      </header>
+
+
+      <!-- DASHBOARD -->
+      <section id="dashboard" class="section active-section">
+
+        <div class="hero">
+
+          <div class="eyebrow">
             PAINEL PRIVADO • PROSPECÇÃO
-          </p>
+          </div>
 
           <h1>
             Oii, Sr. João 👋
           </h1>
 
-          <p class="hero-text">
-            Um bom aproveitamento do nosso site!
-            <br>
-
-            <strong>
-              Vamos encontrar seus próximos clientes.
-            </strong>
-          </p>
-
-        </div>
-
-        <button class="primary-button large-button" data-go="search">
-          🚀 Encontrar Leads
-        </button>
-
-      </div>
-
-
-      <div class="stats">
-
-        <div class="stat-card">
-          <span>Leads encontrados</span>
-          <strong id="foundCount">0</strong>
-          <small>Nesta sessão</small>
-        </div>
-
-        <div class="stat-card">
-          <span>Leads salvos</span>
-          <strong id="savedCount">0</strong>
-          <small>Na sua lista</small>
-        </div>
-
-        <div class="stat-card">
-          <span>Pesquisas</span>
-          <strong id="searchCount">0</strong>
-          <small>Realizadas</small>
-        </div>
-
-        <div class="stat-card">
-          <span>Países</span>
-          <strong>2</strong>
-          <small>Brasil + Portugal</small>
-        </div>
-
-      </div>
-
-
-      <div class="dashboard-grid">
-
-        <div class="panel motivational">
-
-          <div class="panel-header">
-
-            <div>
-
-              <p class="eyebrow">
-                MENSAGEM DO DIA
-              </p>
-
-              <h2>
-                Oi, João. Bons trabalhos! 💪
-              </h2>
-
-            </div>
-
-            <span class="spark">
-              ✦
-            </span>
-
-          </div>
-
           <p>
-            Todo lead pode virar uma conversa.
-            Toda conversa pode virar um cliente.
-            <strong>Continue prospectando.</strong>
+            Um bom aproveitamento do nosso site!
+            Vamos encontrar seus próximos clientes.
           </p>
 
-          <button class="secondary-button" data-go="search">
-            Começar uma busca →
+          <button class="primary-button" data-go="search">
+            🚀 Encontrar Leads
           </button>
 
         </div>
 
 
-        <div class="panel">
+        <!-- STATS -->
+        <div class="stats-grid">
 
-          <div class="panel-header">
+          <div class="stat-card">
+            <span>Leads encontrados</span>
+            <strong id="statFound">0</strong>
+          </div>
+
+          <div class="stat-card">
+            <span>Leads salvos</span>
+            <strong id="statSaved">0</strong>
+          </div>
+
+          <div class="stat-card">
+            <span>Pesquisas</span>
+            <strong id="statSearches">0</strong>
+          </div>
+
+          <div class="stat-card">
+            <span>Países</span>
+            <strong>3</strong>
+          </div>
+
+        </div>
+
+
+        <div class="dashboard-grid">
+
+          <!-- MOTIVATION -->
+          <div class="motivation-card">
+
+            <div class="motivation-icon">
+              🚀
+            </div>
 
             <div>
-
-              <p class="eyebrow">
-                COMO FUNCIONA
-              </p>
+              <span class="small-label">
+                MENSAGEM DO DIA
+              </span>
 
               <h2>
-                3 passos simples
+                Oi, João. Bons trabalhos! 💪
               </h2>
 
+              <p>
+                Todo lead pode virar uma conversa.
+                Toda conversa pode virar um cliente.
+                Continue prospectando.
+              </p>
             </div>
 
           </div>
 
 
-          <div class="steps">
+          <!-- STEPS -->
+          <div class="steps-card">
 
-            <div>
-              <b>01</b>
-              <span>
-                Escolha país, negócio e cidade.
-              </span>
-            </div>
+            <span class="small-label">
+              COMO FUNCIONA
+            </span>
 
-            <div>
-              <b>02</b>
-              <span>
-                Procure os melhores leads.
-              </span>
-            </div>
+            <div class="steps">
 
-            <div>
-              <b>03</b>
-              <span>
-                Copie a abordagem e entre em contato.
-              </span>
+              <div class="step">
+                <span>01</span>
+                <div>
+                  <strong>Escolha o mercado</strong>
+                  <p>Brasil, Portugal ou EUA.</p>
+                </div>
+              </div>
+
+              <div class="step">
+                <span>02</span>
+                <div>
+                  <strong>Procure os leads</strong>
+                  <p>Informe negócio e cidade.</p>
+                </div>
+              </div>
+
+              <div class="step">
+                <span>03</span>
+                <div>
+                  <strong>Entre em contato</strong>
+                  <p>WhatsApp ou ligação.</p>
+                </div>
+              </div>
+
             </div>
 
           </div>
 
         </div>
 
-      </div>
-
-    </section>
+      </section>
 
 
-    <!-- BUSCAR LEADS -->
+      <!-- SEARCH -->
+      <section id="search" class="section">
 
-    <section id="search" class="page">
+        <div class="section-header">
 
-      <div class="page-title">
+          <div>
+            <div class="eyebrow">
+              PROSPECÇÃO
+            </div>
 
-        <p class="eyebrow">
-          PROSPECÇÃO
-        </p>
+            <h2>
+              Encontrar Leads
+            </h2>
 
-        <h1>
-          Encontrar Leads
-        </h1>
-
-        <p>
-          Defina seu alvo e encontre novas oportunidades.
-        </p>
-
-      </div>
-
-
-      <div class="panel search-panel">
-
-        <div class="field">
-
-          <label>
-            País
-          </label>
-
-          <select id="country">
-
-            <option value="BR">
-              🇧🇷 Brasil
-            </option>
-
-            <option value="PT">
-              🇵🇹 Portugal
-            </option>
-
-          </select>
+            <p>
+              Encontre empresas para entrar em contato.
+            </p>
+          </div>
 
         </div>
 
 
-        <div class="field">
+        <!-- SEARCH FORM -->
+        <div class="search-card">
 
-          <label>
-            Negócio / segmento
-          </label>
+          <div class="field">
 
-          <input
-            id="business"
-            type="text"
-            placeholder="Ex.: barbeiro, clínica, restaurante"
-          >
+            <label for="country">
+              País
+            </label>
+
+            <select id="country">
+
+              <option value="BR">
+                🇧🇷 Brasil
+              </option>
+
+              <option value="PT">
+                🇵🇹 Portugal
+              </option>
+
+              <option value="US">
+                🇺🇸 Estados Unidos
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="business">
+              Negócio
+            </label>
+
+            <input
+              id="business"
+              type="text"
+              placeholder="Ex: barbeiro, clínica, restaurante..."
+            />
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="city">
+              Cidade
+            </label>
+
+            <input
+              id="city"
+              type="text"
+              placeholder="Ex: Jales, Lisboa, Miami..."
+            />
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="quantity">
+              Quantidade
+            </label>
+
+            <select id="quantity">
+
+              <option value="15">
+                15 leads
+              </option>
+
+              <option value="10">
+                10 leads
+              </option>
+
+              <option value="20">
+                20 leads
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <button id="searchBtn" class="search-button">
+            🚀 PROCURAR LEADS
+          </button>
+
+          <div class="search-note">
+            ⏱️ A pesquisa pode levar até 30 segundos.
+          </div>
 
         </div>
 
 
-        <div class="field">
+        <!-- LOADING -->
+        <div id="loading" class="loading-card hidden">
 
-          <label>
-            Cidade / região
-          </label>
+          <div class="spinner"></div>
 
-          <input
-            id="city"
-            type="text"
-            placeholder="Ex.: Jales, SP ou Lisboa"
-          >
+          <div>
+            <strong id="loadingTitle">
+              Procurando leads...
+            </strong>
 
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Quantidade
-          </label>
-
-          <select id="quantity">
-
-            <option value="15">
-              15
-            </option>
-
-            <option value="10">
-              10
-            </option>
-
-            <option value="20">
-              20
-            </option>
-
-          </select>
+            <p id="loadingText">
+              Analisando empresas.
+            </p>
+          </div>
 
         </div>
 
 
-        <button
-          id="searchButton"
-          class="primary-button search-button"
-        >
-          🚀 PROCURAR LEADS
-        </button>
+        <!-- RESULTS -->
+        <div class="results-header">
 
+          <div>
+            <span class="small-label">
+              RESULTADOS
+            </span>
 
-        <p class="search-info">
-          O sistema poderá levar até 30 segundos para encontrar e
-          organizar os melhores resultados.
-        </p>
+            <h3>
+              Leads encontrados
+            </h3>
+          </div>
 
-      </div>
-
-
-      <!-- LOADING -->
-
-      <div id="loading" class="loading hidden">
-
-        <div class="loader"></div>
-
-        <div class="loading-content">
-
-          <strong id="loadingTitle">
-            Procurando empresas...
-          </strong>
-
-          <span id="loadingDescription">
-            Analisando oportunidades online
+          <span id="resultsCount" class="results-count">
+            0 leads
           </span>
 
         </div>
 
-        <strong id="loadingTimer">
-          0s
-        </strong>
 
-      </div>
+        <div id="results" class="leads-grid">
 
+          <div class="empty-state">
 
-      <!-- RESULTADOS -->
+            <div>
+              🔎
+            </div>
 
-      <div id="resultsHeader" class="results-header hidden">
+            <h3>
+              Nenhuma pesquisa ainda
+            </h3>
 
-        <div>
+            <p>
+              Escolha um país, negócio e cidade para começar.
+            </p>
 
-          <p class="eyebrow">
-            RESULTADOS
-          </p>
-
-          <h2 id="resultsTitle">
-            Leads encontrados
-          </h2>
+          </div>
 
         </div>
 
-        <span id="resultsCount"></span>
-
-      </div>
+      </section>
 
 
-      <div id="results" class="results-grid"></div>
+      <!-- SAVED -->
+      <section id="saved" class="section">
 
-    </section>
+        <div class="section-header">
 
+          <div>
 
-    <!-- SALVOS -->
+            <div class="eyebrow">
+              CRM
+            </div>
 
-    <section id="saved" class="page">
+            <h2>
+              Meus Leads
+            </h2>
 
-      <div class="page-title">
+            <p>
+              Leads que você decidiu guardar.
+            </p>
 
-        <p class="eyebrow">
-          CRM
-        </p>
+          </div>
 
-        <h1>
-          Meus Leads
-        </h1>
+        </div>
 
-        <p>
-          Empresas que você decidiu guardar.
-        </p>
+        <div id="savedResults" class="leads-grid"></div>
 
-      </div>
-
-
-      <div id="savedResults" class="results-grid"></div>
-
-
-      <div id="emptySaved" class="empty-state">
-
-        <span>☆</span>
-
-        <h2>
-          Nenhum lead salvo
-        </h2>
-
-        <p>
-          Quando encontrar uma oportunidade,
-          clique em "Salvar lead".
-        </p>
-
-      </div>
-
-    </section>
+      </section>
 
 
-    <!-- HISTÓRICO -->
+      <!-- HISTORY -->
+      <section id="history" class="section">
 
-    <section id="history" class="page">
+        <div class="section-header">
 
-      <div class="page-title">
+          <div>
 
-        <p class="eyebrow">
-          ATIVIDADE
-        </p>
+            <div class="eyebrow">
+              PESQUISAS
+            </div>
 
-        <h1>
-          Histórico
-        </h1>
+            <h2>
+              Histórico
+            </h2>
 
-        <p>
-          Suas pesquisas realizadas.
-        </p>
+            <p>
+              Suas últimas pesquisas.
+            </p>
 
-      </div>
+          </div>
 
+        </div>
 
-      <div id="historyList" class="history-list"></div>
+        <div id="historyResults" class="history-list"></div>
 
+      </section>
 
-      <div id="emptyHistory" class="empty-state">
+    </main>
 
-        <span>◷</span>
-
-        <h2>
-          Nenhuma pesquisa ainda
-        </h2>
-
-        <p>
-          Suas buscas aparecerão aqui.
-        </p>
-
-      </div>
-
-    </section>
-
-  </main>
+  </div>
 
 
-  <div id="toast" class="toast"></div>
+  <!-- TOAST -->
+  <div id="toast" class="toast">
+    <span id="toastText"></span>
+  </div>
 
 
   <script src="script.js"></script>
