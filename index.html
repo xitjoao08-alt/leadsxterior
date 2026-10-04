@@ -1,24 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>LEADXTERIOR • Private CRM</title>
 
-  <meta
-    name="description"
-    content="LEADXTERIOR — painel privado para prospecção de leads."
-  />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
     rel="stylesheet"
-  />
+  >
 
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -79,7 +75,6 @@
     <!-- MAIN -->
     <main class="main">
 
-      <!-- TOPBAR -->
       <header class="topbar">
 
         <div class="mobile-brand">
@@ -87,15 +82,11 @@
         </div>
 
         <div class="topbar-right">
+          <div id="clock" class="clock">--:--</div>
 
-          <div id="clock" class="clock">
-            --:--
-          </div>
-
-          <button id="themeBtn" class="icon-button" title="Tema">
+          <button id="themeBtn" class="icon-button">
             ◐
           </button>
-
         </div>
 
       </header>
@@ -126,7 +117,6 @@
         </div>
 
 
-        <!-- STATS -->
         <div class="stats-grid">
 
           <div class="stat-card">
@@ -145,7 +135,7 @@
           </div>
 
           <div class="stat-card">
-            <span>Países</span>
+            <span>Países disponíveis</span>
             <strong>3</strong>
           </div>
 
@@ -154,7 +144,6 @@
 
         <div class="dashboard-grid">
 
-          <!-- MOTIVATION -->
           <div class="motivation-card">
 
             <div class="motivation-icon">
@@ -180,7 +169,6 @@
           </div>
 
 
-          <!-- STEPS -->
           <div class="steps-card">
 
             <span class="small-label">
@@ -192,8 +180,8 @@
               <div class="step">
                 <span>01</span>
                 <div>
-                  <strong>Escolha o mercado</strong>
-                  <p>Brasil, Portugal ou EUA.</p>
+                  <strong>Escolha o país</strong>
+                  <p>Brasil, Portugal ou Estados Unidos.</p>
                 </div>
               </div>
 
@@ -201,7 +189,7 @@
                 <span>02</span>
                 <div>
                   <strong>Procure os leads</strong>
-                  <p>Informe negócio e cidade.</p>
+                  <p>Escolha negócio e cidade.</p>
                 </div>
               </div>
 
@@ -244,13 +232,12 @@
         </div>
 
 
-        <!-- SEARCH FORM -->
         <div class="search-card">
 
           <div class="field">
 
             <label for="country">
-              País
+              🌎 País
             </label>
 
             <select id="country">
@@ -275,14 +262,14 @@
           <div class="field">
 
             <label for="business">
-              Negócio
+              🏢 Negócio
             </label>
 
             <input
               id="business"
               type="text"
-              placeholder="Ex: barbeiro, clínica, restaurante..."
-            />
+              placeholder="Ex: barbeiro, clínica..."
+            >
 
           </div>
 
@@ -290,14 +277,14 @@
           <div class="field">
 
             <label for="city">
-              Cidade
+              📍 Cidade
             </label>
 
             <input
               id="city"
               type="text"
               placeholder="Ex: Jales, Lisboa, Miami..."
-            />
+            >
 
           </div>
 
@@ -305,7 +292,7 @@
           <div class="field">
 
             <label for="quantity">
-              Quantidade
+              🔢 Quantidade
             </label>
 
             <select id="quantity">
@@ -331,6 +318,7 @@
             🚀 PROCURAR LEADS
           </button>
 
+
           <div class="search-note">
             ⏱️ A pesquisa pode levar até 30 segundos.
           </div>
@@ -344,13 +332,15 @@
           <div class="spinner"></div>
 
           <div>
-            <strong id="loadingTitle">
+
+            <strong>
               Procurando leads...
             </strong>
 
             <p id="loadingText">
               Analisando empresas.
             </p>
+
           </div>
 
         </div>
@@ -360,6 +350,7 @@
         <div class="results-header">
 
           <div>
+
             <span class="small-label">
               RESULTADOS
             </span>
@@ -367,6 +358,7 @@
             <h3>
               Leads encontrados
             </h3>
+
           </div>
 
           <span id="resultsCount" class="results-count">
@@ -380,9 +372,7 @@
 
           <div class="empty-state">
 
-            <div>
-              🔎
-            </div>
+            <div>🔎</div>
 
             <h3>
               Nenhuma pesquisa ainda
@@ -459,7 +449,6 @@
   </div>
 
 
-  <!-- TOAST -->
   <div id="toast" class="toast">
     <span id="toastText"></span>
   </div>
